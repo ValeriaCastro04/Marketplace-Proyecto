@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="css/estilo.css">
+</head>
+<body id="login">
+        <header>
+            <a href="inicio.html"><img src="img/SiVARMARKET LOGO - Log In.png" alt="Logo SiVARMARKET" id="logo"></a>
+        </header>
+        <form action="Ejercicio2.html" method="post"> 
+            <h1>Iniciar sesión</h1>
+            <fieldset id="logindatos">
+                <input type="image" src="img/email.png" class="img">
+                <input type="email" id="correo" value="" title="Formato de correo: NombreCorreo@dominio" class="control" placeholder="Correo Electronico" required><br>
+                <input type="image" src="img/pass.png" class="img">
+                <input type="password" id="password" value="" pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15})" title="Su contraseña debe ser de 6 a 15 caracteres y deben incluir una letra mayúscula, minúscula y un número" class="control" placeholder="Contraseña" required><br>
+                <button id="boton" type="submit" class="boton"><a href="indexVendedor.html"></a>Iniciar sesión</button>
+            </fieldset>
+        </form>
+</body>
+</html>

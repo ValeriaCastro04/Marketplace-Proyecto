@@ -1,0 +1,173 @@
+:root {
+    --primary: #fff6ee;
+    --secondary: #d3ffbe;
+    --tertiary: #3c9466;
+}
+
+body{
+    background-color: var(--secondary);
+}
+
+#login{
+    margin-top: 4%;
+    margin-left: 32%;
+    margin-right: 32%;
+}
+
+#login form{
+    width: 400px;
+    text-align: center;
+}
+form{
+    margin: 0 auto;
+    margin-bottom: 100px;
+    margin-top: 50px;
+}
+#logindatos{
+    border: none;
+    margin-top: 5px;
+    border-radius: 10px;
+    margin: 0 auto;
+}
+
+#login .img{
+    margin: 18px;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 0px;
+}
+
+.terminos{
+    display: inline;
+    color: #fff;
+}
+
+.terminos p{
+    font-size: 11px;
+    color: #fff;
+}
+
+#login input{
+    border-radius: 15px;
+    width: 300px;
+    height: 35px;
+    margin: 10px;
+}
+
+#login input.terminos{
+    width: 20px;
+    height: 20px;
+}
+
+.control{
+    padding-left: 45px;
+    font-size: 18px;
+}
+
+.boton{
+    background-color: rgba(164, 179, 87, 1);
+    border-radius: 15px;
+    width: 150px;
+    height: 40px;
+    color: #fff;
+    font-family: 'Century Gothic', sans-serif;
+    margin-top: 3px;
+    margin-left: 185px;
+}
+
+.formdatos{
+    color: #fff;
+}
+
+.formdatos form{
+    width: 1115px;
+    height: 500px;
+    border-radius: 15px;
+    padding: 22px;
+    margin: 20px auto;
+}
+
+.formdatos fieldset{
+    font-family: 'Century Gothic', sans-serif;
+    padding: 12px;
+    float: left;
+    width: 25%;
+    margin-top: 5px;
+    border-radius: 10px;
+    height: 332px;
+    margin-left: 13px;
+}
+
+.formdatos img{
+    float: left;
+    width: 90px;
+    height: 70px;
+    border-radius: 5px;
+    margin: 0px 22px;
+}
+
+.formdatos button{
+    margin-top: 3px;
+    margin-left: 830px;
+}
+
+.formdatos p{
+    margin-top: 15%;
+    padding-bottom: 15%;
+    font-size: 48px;
+    text-align: center;
+}
+
+form{
+    font-family: 'Century Gothic', sans-serif;
+    background-color: var(--tertiary);
+    box-shadow: 10px 10px 112px 0px rgba(0, 0, 0, 0.75);
+}
+
+form:required{
+    border-radius: 15px;
+    box-shadow: 0px 0px 5px #808080;
+}
+
+form:invalid{
+    border-radius: 15px;
+    border-color: rgba(164, 179, 87, 1);
+}
+
+h1{
+    padding-top: 6px;
+    color: #fff;
+}
+
+#logo {
+    width: 200px;
+    margin: 0 auto;
+    display: block;
+}
+
+.botoncito{
+	display: inline-block;
+	padding: 25px 50px;
+	margin: 30px 0;
+	margin-top: 10px;
+	background-color: #236b45;
+	color: white;
+	text-decoration: none;
+	text-transform: uppercase;
+	border-radius: 4px;
+	font-weight: bold;
+    width: 70%;
+}
+
+.botoncito:hover{
+	background-color: var(--primary);
+    color: black;
+    transform: scale(1.05); 
+}
+
+.caja{
+    margin: 0 auto;
+    align-items: center center;
+    color: #808080;
+}
