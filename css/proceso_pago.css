@@ -41,7 +41,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: stretch; 
-    width: 100%;
+    width: 90%;
     max-width: 2500px;
     margin: 0 auto; 
     box-sizing: border-box;

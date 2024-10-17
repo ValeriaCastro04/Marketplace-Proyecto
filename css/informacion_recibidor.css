@@ -78,12 +78,14 @@ td {
 .formulario_infr h2 {
     text-align: center;
     color: #1b5632;
+    font-size: 2.2rem;
 }
 
 .formulario_infr label {
     display: block;
     margin: 15px 0 5px;
     font-family: 'Century Gothic', sans-serif;
+    font-size: 22px;
 }
 
 .formulario_infr input {
@@ -93,6 +95,7 @@ td {
     border: 1px solid #ccc;
     border-radius: 15px;
     box-sizing: border-box; 
+    font-size: 20px;
 }
 
 .boton_ir_a_pagar {
@@ -133,6 +136,7 @@ td {
 .carrito_infr h2 {
     text-align: center;
     color: #1b5632;
+    font-size: 30px;
 }
 
 .carrito_infr {

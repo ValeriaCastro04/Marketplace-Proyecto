@@ -22,7 +22,7 @@
     <div class="container_infr">
         <div class="formulario_infr">
             <h2>Ingrese sus datos</h2>
-            <form id="form_infr">
+            <form action="ProcesoPago.html" method="post"> 
                 <label for="nombre">Nombre</label>
                 <input type="text" id="nombre" class="input_infr" value="" name="nombre"  title="Ingrese su nombre (a-z)" placeholder="Ingresa tu nombre" required>
 
@@ -36,14 +36,13 @@
                 <input type="email" id="correo" class="input_infr" value="" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" name="correo"  title="Ingrese su correo electronico" placeholder="Ingresa tu correo electrónico" required>
                 
 
-                <button type="submit" class="boton_ir_a_pagar"><a href="ProcesoPago.html"></a>IR A PAGAR</button>
+                <button type="submit" id="boton" class="boton_ir_a_pagar">IR A PAGAR</button>
             </form>
         </div>
         
         <div id="contenedor_carrito_infr">
             <div class="carrito_infr">
                 <h2>Detalle</h2>
-                <!-- Espacio para el carrito de compras -->
             </div>
         </div>
         
