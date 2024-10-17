@@ -1,0 +1,122 @@
+body {
+    font-family: 'Century Gothic', sans-serif;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#inf_pago{
+    text-align: center;
+    color: #1b5632;
+    font-size: 4.5rem;
+    padding-top: 10px; 
+}
+
+.indicador_progreso {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.punto {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin: 0 10px;
+}
+
+.gris {
+    background-color: #ced4da;
+}
+
+.rojo {
+    background-color: #b22222;
+}
+
+.container_pago {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch; 
+    width: 100%;
+    max-width: 2500px;
+    margin: 0 auto; 
+    box-sizing: border-box;
+    padding: 20px;
+    margin-top: 30px;
+    gap: 30px; 
+}
+
+.formulario_pago, .detalle_carrito {
+    border-radius: 10px;
+    padding: 30px;
+    min-width: 400px; 
+    width: 50%;
+}
+
+.formulario_pago {
+    background-color: #fff;
+    border-radius: 10px;
+    border: 1px solid #1b5632; 
+}
+
+
+.logos_tarjetas {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.logo_tarjeta {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+}
+
+#form_pago {
+    display: flex;
+    flex-direction: column;
+}
+
+.input_pago {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.cvv_exp {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cvv, .expiracion {
+    width: 50%;
+}
+
+.boton_pagar {
+    padding: 15px;
+    background-color: #1b5632;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+.boton_pagar:hover {
+    background-color: #143f24;
+}
+
+.subtotal {
+    text-align: right;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.detalle_carrito {
+    border: 1px solid #1b5632; 
+}

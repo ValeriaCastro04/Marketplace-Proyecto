@@ -22,26 +22,26 @@
     <div class="container_pago">
         <div class="formulario_pago">
             <div class="logos_tarjetas">
-                <img src="#" alt="Logo Mastercard" class="logo_tarjeta">
-                <img src="#" alt="Logo Visa" class="logo_tarjeta">
-                <img src="#" alt="Logo American Express" class="logo_tarjeta">
+                <img src="img/mastercard.png" alt="Logo Mastercard" class="logo_tarjeta">
+                <img src="img/visa.png" alt="Logo Visa" class="logo_tarjeta">
+                <img src="img/americanexpress.png" alt="Logo American Express" class="logo_tarjeta">
             </div>
 
             <form id="form_pago">
                 <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" class="input_pago" placeholder="Ingresa tu nombre" required>
+                <input type="text" id="nombre" class="input_pago" pattern="[A-Za-zÁÉÍÓÚáéíóúÑñ\s'-]+" placeholder="Ingresa tu nombre" required>
 
                 <label for="num_tarjeta">Num de tarjeta</label>
-                <input type="text" id="num_tarjeta" class="input_pago" placeholder="Ingresa tu número de tarjeta" required>
+                <input type="text" id="num_tarjeta" class="input_pago" pattern="[\d-]{1,15}" placeholder="Ingresa tu número de tarjeta"  required>
 
                 <div class="cvv_exp">
                     <div class="cvv">
                         <label for="cvv">CVV</label>
-                        <input type="text" id="cvv" class="input_pago" placeholder="CVV" required>
+                        <input type="text" id="cvv" class="input_pago" pattern="\d{3}" title="Ingrese XXX" placeholder="CVV" required>
                     </div>
                     <div class="expiracion">
                         <label for="expiracion">Expiración</label>
-                        <input type="text" id="expiracion" class="input_pago" placeholder="MM/YY" required>
+                        <input type="date" id="expiracion" class="input_pago" placeholder="MM/YY" required>
                     </div>
                 </div>
 
