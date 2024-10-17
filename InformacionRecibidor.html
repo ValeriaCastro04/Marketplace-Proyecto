@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Información de Recibidor</title>
+
+    <link rel="stylesheet" href="css/informacion_recibidor.css">
+</head>
+<body>
+    <h1 id="inf_rec">Información de Recibidor</h1>
+    <div class="container_infr">
+        <div class="formulario_infr">
+            <h2>Ingrese sus datos</h2>
+            <form id="form_infr">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" class="input_infr" value="" name="nombre"  title="Ingrese su nombre (a-z)" placeholder="Ingresa tu nombre" required>
+
+                <label for="direccion">Dirección</label>
+                <input type="text" id="direccion" class="input_infr" value="" pattern="[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ\s.,\-#]+" name="direccion"  title="Ingrese su direccion" placeholder="Ingresa tu direccion" required>
+
+                <label for="telefono">Num de teléfono</label>
+                <input type="tel" id="telefono" class="input_infr" value="" pattern="[0-9\s\-]+" name="telefono"  title="Ingrese su numero de telefono" placeholder="Ingresa tu número de teléfono" required>
+
+                <label for="correo">Correo electrónico</label>
+                <input type="email" id="correo" class="input_infr" value="" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" name="correo"  title="Ingrese su correo electronico" placeholder="Ingresa tu correo electrónico" required>
+                
+
+                <button type="submit" class="boton_ir_a_pagar"><a href="ProcesoPago.html"></a>IR A PAGAR</button>
+            </form>
+        </div>
+        
+        <div class="carrito_infr">
+            <h2>Carrito de compras</h2>
+            <!-- Espacio para el carrito de compras -->
+        </div>
+    </div>
+
+</body>
+</html>
