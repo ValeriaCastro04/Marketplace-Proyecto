@@ -1,33 +1,62 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Century Gothic', sans-serif;
     background-color: #d3ffbe;
     margin: 0;
     padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
     flex-direction: column;
 }
 
 #inf_rec {
     text-align: center;
     color: #1b5632;
-    font-size: 4rem;
+    font-size: 4.5rem;
     padding-top: 10px;
-    padding-bottom: 5%;
+}
+
+.indicador_progreso {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 5%;
+}
+
+td {
+    padding: 15px;
+    text-align: center;
+}
+
+.punto {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+}
+
+.rojo {
+    background-color: red;
+}
+
+.gris {
+    background-color: grey;
 }
 
 .container_infr {
     display: flex;
     justify-content: space-between;
-    align-items: center; 
-    width: 90%; 
+    align-items: stretch; 
+    width: 90%;
+    max-width: 2000px; 
+    margin: 0 auto; 
     box-sizing: border-box;
     background-color: #b2f0a1;
     padding: 20px;
     border-radius: 10px;
+    gap: 20px; 
 }
+
 
 #form_infr {
     background-color: #b2f0a1;
@@ -35,15 +64,14 @@ body {
 }
 
 .formulario_infr {
-    width: 50%;
+    width: 50%; 
     padding: 20px;
-    margin: 0 auto; 
     text-align: center;
 }
 
 .formulario_infr label {
     text-align: left;
-    padding-left: 10%;
+    padding-left: 11%;
 }
 
 
@@ -55,6 +83,7 @@ body {
 .formulario_infr label {
     display: block;
     margin: 15px 0 5px;
+    font-family: 'Century Gothic', sans-serif;
 }
 
 .formulario_infr input {
@@ -62,7 +91,7 @@ body {
     padding: 10px;
     margin-bottom: 10px;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 15px;
     box-sizing: border-box; 
 }
 
@@ -90,19 +119,31 @@ body {
     background-color: #368652;
 }
 
+#contenedor_carrito_infr {
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center; 
+    width: 50%; 
+    padding: 20px;
+    background-color: #b2f0a1;
+    border-radius: 10px;
+}
+
 .carrito_infr h2 {
     text-align: center;
     color: #1b5632;
 }
 
 .carrito_infr {
-    width: 50%; 
+    width: 100%;
     padding: 20px;
     background-color: #fff;
     border: 2px dashed #ccc;
     border-radius: 10px;
     display: flex;
     justify-content: center;
+    align-items: center; 
     min-height: 300px;
-    margin-right: 30px; 
+    margin-right: 10%;
 }
