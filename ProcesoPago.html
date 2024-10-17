@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proceso de Pago</title>
+    <link rel="stylesheet" href="css/proceso_pago.css">
+</head>
+<body>
+    <h1 id="inf_pago">PROCESO DE PAGO</h1>
+
+    <div class="indicador_progreso">
+        <table>
+            <tr>
+                <td><span class="punto gris"></span></td>
+                <td><span class="punto rojo"></span></td>
+                <td><span class="punto gris"></span></td>
+            </tr>
+        </table>
+    </div>
+
+    <div class="container_pago">
+        <div class="formulario_pago">
+            <div class="logos_tarjetas">
+                <img src="#" alt="Logo Mastercard" class="logo_tarjeta">
+                <img src="#" alt="Logo Visa" class="logo_tarjeta">
+                <img src="#" alt="Logo American Express" class="logo_tarjeta">
+            </div>
+
+            <form id="form_pago">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="nombre" class="input_pago" placeholder="Ingresa tu nombre" required>
+
+                <label for="num_tarjeta">Num de tarjeta</label>
+                <input type="text" id="num_tarjeta" class="input_pago" placeholder="Ingresa tu número de tarjeta" required>
+
+                <div class="cvv_exp">
+                    <div class="cvv">
+                        <label for="cvv">CVV</label>
+                        <input type="text" id="cvv" class="input_pago" placeholder="CVV" required>
+                    </div>
+                    <div class="expiracion">
+                        <label for="expiracion">Expiración</label>
+                        <input type="text" id="expiracion" class="input_pago" placeholder="MM/YY" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="boton_pagar">PAGAR</button>
+            </form>
+        </div>
+
+        <div class="detalle_carrito">
+            <div class="producto">
+            </div>
+
+            <div class="subtotal">
+                <p>Subtotal (items): <span>$</span></p>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
