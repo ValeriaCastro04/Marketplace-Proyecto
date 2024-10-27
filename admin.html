@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin SiVARMARKET - Panel de Control</title>
+    <link rel="stylesheet" href="css/admin_style.css">
+    <script defer src="js/admin.js"></script>
+</head>
+<body>
+    <header>
+        <img src="img/SiVARMARKET -LOGO1.png" alt="SiVARMARKET Logo" id="logo">
+        <h1>Panel de Control SiVARMARKET</h1>
+        <nav>
+            <ul>
+                <li><a href="CrearCatalogo.html">Crear Catálogo</a></li>
+                <li><a href="GestionarCatalogo.html">Gestionar Catálogo</a></li>
+                <li><a href="#">Opciones</a></li>
+                <li><a href="#">Soporte</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="administracion-productos">
+            <h2>Gestión de Productos</h2>
+            <div class="panel-control">
+                <!-- Productos en Espera -->
+                <div id="productos-en-espera" class="productos-lista">
+                    <h3>Productos en Espera</h3>
+                    <div id="lista-espera">
+                        <!-- Producto 1: Moto -->
+                        <div class="producto">
+                            <h4>Nombre del Producto:</h4>
+                            <p>Moto Sport 2022</p>
+                            
+                            <h4>Descripción:</h4>
+                            <p>Disfruta de la libertad de la carretera con la <strong>Moto Sport 2022</strong>, diseñada para aquellos que buscan emociones. Con un motor de 300 cc que ofrece potencia y agilidad, y un diseño aerodinámico que no solo es atractivo, sino también funcional. Ideal para viajes largos o recorridos por la ciudad, esta moto combina tecnología avanzada y estilo contemporáneo, asegurando que cada viaje sea inolvidable.</p>
+                            
+                            <h4>Precio (USD):</h4>
+                            <p>$5,500.00</p>
+                            
+                            <h4>Categoría:</h4>
+                            <p>Electrónica</p>
+                            
+                            <h4>Imagen del Producto:</h4>
+                            <img src="https://th.bing.com/th/id/OIP.HwY40bDVIvkPFz8fPfKzpAHaFy?rs=1&pid=ImgDetMain" alt="Moto Sport 2022" style="width: 200px; height: auto; border-radius: 5px;">
+                        </div>
+
+                        <!-- Producto 2: Sillón -->
+                        <div class="producto">
+                            <h4>Nombre del Producto:</h4>
+                            <p>Sillón Relax Elegante</p>
+                            
+                            <h4>Descripción:</h4>
+                            <p>Transforma tu espacio con el <strong>Sillón Relax Elegante</strong>, una pieza que combina comodidad y sofisticación. Tapizado en una suave tela que invita a sentarse y relajarse, su diseño moderno se adapta a cualquier decoración. Perfecto para leer un libro, disfrutar de una película o simplemente relajarte después de un largo día. Este sillón no es solo un mueble, es una declaración de estilo en tu hogar.</p>
+                            
+                            <h4>Precio (USD):</h4>
+                            <p>$250.00</p>
+                            
+                            <h4>Categoría:</h4>
+                            <p>Muebles</p>
+                            
+                            <h4>Imagen del Producto:</h4>
+                            <img src="https://example.com/sillon.jpg" alt="Sillón Relax Elegante" style="width: 200px; height: auto; border-radius: 5px;">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Productos Aprobados -->
+                <div id="productos-aprobados" class="productos-lista">
+                    <h3>Productos Aprobados</h3>
+                    <div id="lista-aprobados">
+                        <!-- Productos aprobados se mostrarán aquí -->
+                    </div>
+                </div>
+
+                <!-- Productos Rechazados -->
+                <div id="productos-rechazados" class="productos-lista">
+                    <h3>Productos Rechazados</h3>
+                    <div id="lista-rechazados">
+                        <!-- Productos rechazados se mostrarán aquí -->
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
