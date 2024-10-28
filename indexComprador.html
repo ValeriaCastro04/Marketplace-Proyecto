@@ -4,68 +4,116 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SiVARMARKET</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/index_comprador.css">
 </head>
+<body>
+<div>
 <header>
     <img src="img/SiVARMARKET -LOGO1.png" alt="SiVARMARKET Logo" id="logo">
-    <nav>
-        <ul>
-          <li><a href="#">Mi perfil</a></li>
-          <li><a href="CrearCatalogo.html">Mis pedidos</a></li>
-          <li><a href="GestionarCatalogo.html">Customer service</a></li>
-          <li><a href="#">Opciones</a></li>
-          <li><a href="#">Condiciones</a></li>
-        </ul>
-      </nav>
+    <div class="container-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon-cart">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" />
+          </svg>                   
+        <div class="count-products">
+            <span id="contador-productos">0</span>
+        </div> 
+        <div class="container-cart-products hidden-cart">
+            <div class="cart-product">
+                <div class="info-cart-product">
+                    <span class="cantidad-producto-carrito">1</span>
+                    <p class="titulo-producto-carrito">Zapatos Nike</p>
+                    <span class="precio-producto-carrito">$80</span>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon-close">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+                  </svg> 
+            </div>
+            <div class="cart-total">
+                <h3>Total:</h3>
+                <span class="total-pagar">$200</span>
+            </div>
+        </div>             
+    </div>
 </header>
-<body>
-  <section id="contenido">
-    <div id="galeria">
-        <div class="plan">
-            <a href="Vehiculospage.hmtml" style="text-decoration: none; color: black;"><img src="https://static.latamautos.com/ghost/uploads/sites/8/2019/01/29225741/2013-MINI-Hardtop-Coupe-Hatchback-Cooper-2dr-Photo.png" alt="Seccion vechiculos" width="140" height="130">
-            <p>Vehículos</p></a>
-        </div>
-        <div class="plan">
-            <img src="https://i.pinimg.com/550x/64/a2/86/64a286ad666da265b15a60da9423df74.jpg" alt="Sección Inmuebles" width="140" height="130">
-            <p>Inmuebles</p>
-        </div>
-        <div class="plan">
-            <img src="https://www.65ymas.com/uploads/s1/31/00/78/huawei-p30-pro_1_621x621.jpeg" alt="Sección Tecnología" width="140" height="130">
-            <p>Tecnología</p>
-        </div>
-        <div class="plan">
-            <img src="https://blog.marti.mx/wp-content/uploads/2022/10/cuantos-deportes-existen-1024x683.jpg.webp" alt="Sección deportes" width="140" height="130">
-            <p>Deportes</p>
-        </div>
-        <div class="plan">
-            <img src="https://www.revistaeyn.com/binrepository/1301x900/51c0/1200d900/none/26086/VVVX/moda-ropausada-americana-2023_5809344_20231018143322.jpg" alt="Sección Ropa" width="140" height="130">
-            <p>Ropa</p>
-        </div>
-        <div class="plan">
-            <img src="https://www.simplysupplements.es/healthylife/uploads/images/image_slider_802_5f351bc372536.jpg" alt="Sección Salud y Belleza" width="140" height="130">
-            <p>Salud y belleza</p>
-        </div>
-        <div class="plan">
-            <img src="https://www.hubinmobiliario.net/uploads/blog/1623109240.png" alt="Sección juegos" width="140" height="130">
-            <p>Juegos</p>
-        </div>
-        <div class="plan">
-            <img src="https://win.gt/wp-content/uploads/2019/04/negocio-de-antiguedades-y-articulos-coleccionables-2-1.jpg" alt="Sección antiguedades" width="140" height="130">
-            <p>Antiguedades</p>
+</div>
+<div class="separador"></div>
+<div class="titulo-categorias">
+    <h1>Categorías</h1>
+</div>
+<div class="container-items">
+    <div class="item">
+        <figure>
+            <img src="https://www.anahuac.mx/mexico/sites/default/files/styles/webp/public/noticias/Los-colores-que-utilizamos-en-la-ropa-dicen-como-somos.jpg.webp?itok=k3GFCGkN" alt="Categoria Ropa">
+        </figure>
+        <div class="info-product">
+            <h2>Ropa</h2>
+            <a href="#ropa"><button>Buscar</button></a>
         </div>
     </div>
-</section>
+    <div class="item">
+        <figure>
+            <img src="https://s1.elespanol.com/2022/01/04/treintayseis/economia/comercio-local/639946745_242923013_1024x576.jpg" alt="Categoria Antigüedades">
+        </figure>
+        <div class="info-product">
+            <h2>Antigüedades</h2>
+            <a href="antiguedades"><button>Buscar</button></a>
+        </div>
+    </div>
+    <div class="item">
+        <figure>
+            <img src="https://tuyomedia.sfo2.cdn.digitaloceanspaces.com/1664758140728-Kitfacialparaacn%C3%A9ymanchitas.jpeg" alt="Categoria Cuidado de la piel">
+        </figure>
+        <div class="info-product">
+            <h2>Cuidado de la piel</h2>
+            <a href="#skincare"><button>Buscar</button></a>
+        </div>
+    </div>
+    <div class="item">
+        <figure>
+            <img src="https://miro.medium.com/v2/resize:fit:1400/1*B0Eva2_QTjOP9pAmjnMunQ.jpeg" alt="Categoria Emprendimientos">
+        </figure>
+        <div class="info-product">
+            <h2>Emprendimientos</h2>
+            <a href="#emprendimientos"><button>Buscar</button></a>
+        </div>
+    </div>
+    <div class="item">
+        <figure>
+            <img src="https://www.estamosenlinea.co/wp-content/uploads/2024/05/Tendencia-consumo-de-lo-usado-1-002.jpg" alt="Categoria Productos usados">
+        </figure>
+        <div class="info-product">
+            <h2>Productos usados</h2>
+            <a href="#usados"><button>Buscar</button></a>
+        </div>
+    </div>
+    <div class="item">
+        <figure>
+            <img src="https://i.pinimg.com/736x/a1/1a/ff/a11affbe1f566b92092d1a3eaf67f44b.jpg" alt="Categoria Artesanías">
+        </figure>
+        <div class="info-product">
+            <h2>Artesanías</h2>
+            <a href="#artesanias"><button>Buscar</button></a>
+        </div>
+    </div>
+</div>
+<div class="titulos">
+    <h1 id="ropa">Ropa</h1>
+</div>
+<div class="container-items">
+    <div class="item">
+        <figure>
+            <img src="https://i.pinimg.com/564x/0a/99/d7/0a99d7a26be11ca952646b7d6e751962.jpg" alt="Categoria Ropa">
+        </figure>
+        <div class="info-product">
+            <h2>Camisa rosada</h2>
+            <p class="price">$20</p>
+            <button>Añadir al carrito</button>
+        </div>
+    </div>
+    <!-- Puedes agregar más productos aquí -->
+</div>
 
-<h1 class="titulos">Publicado recientemente</h1>
-<section class="contenedor">
-    <img src="img/logo casa.png" alt="logo casa">
-
-
-
-
-</section>
-
-
+<script src="js/index.js"></script>
 </body>
 <footer>
   <p>Marketplace para productos locales - Proyecto Metodologias Agiles</p>
