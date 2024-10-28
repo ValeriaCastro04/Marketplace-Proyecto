@@ -291,6 +291,21 @@ header{
     display: none;
 }
 
+.btn-checkout {
+    background-color: #3c9466;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+.btn-checkout:hover {
+    background-color: #2e7453;
+}
+
 /*footer*/
 footer{
     background-color:#236b45 ;

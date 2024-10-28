@@ -100,4 +100,25 @@ const showHTML = () => {
 
     valorTotal.innerText = `$${total}`;
     countProducts.innerText = totalOfProducts;
+
+    // Agregar el botón "Ir a pagar" si hay productos en el carrito
+    if (totalOfProducts > 0) {
+        let btnCheckout = document.querySelector('.btn-checkout');
+        
+        if (!btnCheckout) {
+            btnCheckout = document.createElement('button');
+            btnCheckout.classList.add('btn-checkout');
+            btnCheckout.innerText = 'Ir a pagar';
+            btnCheckout.addEventListener('click', () => {
+                window.location.href = 'InformacionRecibidor.html';
+            });
+            cartTotal.append(btnCheckout);
+        }
+    } else {
+        // Remover el botón "Ir a pagar" si no hay productos
+        const btnCheckout = document.querySelector('.btn-checkout');
+        if (btnCheckout) {
+            btnCheckout.remove();
+        }
+    }
 };
