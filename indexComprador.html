@@ -20,20 +20,23 @@
             </div> 
         </div>
         <div class="container-cart-products hidden-cart">
-            <div class="cart-product">
-                <div class="info-cart-product">
-                    <span class="cantidad-producto-carrito">1</span>
-                    <p class="titulo-producto-carrito">Zapatos Nike</p>
-                    <span class="precio-producto-carrito">$80</span>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon-close">
+            <div class="row-product hidden">
+                <div class="cart-product">
+                    <div class="info-cart-product">
+                        <span class="cantidad-producto-carrito">1</span>
+                        <p class="titulo-producto-carrito">Zapatos Nike</p>
+                        <span class="precio-producto-carrito">$80</span>
+                    </div>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="icon-close">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
-                  </svg> 
+                    </svg> 
+                </div>
             </div>
-            <div class="cart-total">
+            <div class="cart-total hidden">
                 <h3>Total:</h3>
                 <span class="total-pagar">$200</span>
             </div>
+            <p class="cart-empty">El carrito esta vacio</p>
         </div>             
     </div>
 </header>
@@ -42,57 +45,57 @@
 <div class="titulo-categorias">
     <h1>Categorías</h1>
 </div>
-<div class="container-items">
-    <div class="item">
+<div class="container-categorias">
+    <div class="categoria">
         <figure>
             <img src="https://www.anahuac.mx/mexico/sites/default/files/styles/webp/public/noticias/Los-colores-que-utilizamos-en-la-ropa-dicen-como-somos.jpg.webp?itok=k3GFCGkN" alt="Categoria Ropa">
         </figure>
-        <div class="info-product">
+        <div class="info-product-1">
             <h2>Ropa</h2>
             <a href="#ropa"><button>Buscar</button></a>
         </div>
     </div>
-    <div class="item">
+    <div class="categoria">
         <figure>
             <img src="https://s1.elespanol.com/2022/01/04/treintayseis/economia/comercio-local/639946745_242923013_1024x576.jpg" alt="Categoria Antigüedades">
         </figure>
-        <div class="info-product">
+        <div class="info-product-1">
             <h2>Antigüedades</h2>
-            <a href="antiguedades"><button>Buscar</button></a>
+            <a href="#antiguedades"><button>Buscar</button></a>
         </div>
     </div>
-    <div class="item">
+    <div class="categoria">
         <figure>
             <img src="https://tuyomedia.sfo2.cdn.digitaloceanspaces.com/1664758140728-Kitfacialparaacn%C3%A9ymanchitas.jpeg" alt="Categoria Cuidado de la piel">
         </figure>
-        <div class="info-product">
+        <div class="info-product-1">
             <h2>Cuidado de la piel</h2>
             <a href="#skincare"><button>Buscar</button></a>
         </div>
     </div>
-    <div class="item">
+    <div class="categoria">
         <figure>
             <img src="https://miro.medium.com/v2/resize:fit:1400/1*B0Eva2_QTjOP9pAmjnMunQ.jpeg" alt="Categoria Emprendimientos">
         </figure>
-        <div class="info-product">
+        <div class="info-product-1">
             <h2>Emprendimientos</h2>
             <a href="#emprendimientos"><button>Buscar</button></a>
         </div>
     </div>
-    <div class="item">
+    <div class="categoria">
         <figure>
             <img src="https://www.estamosenlinea.co/wp-content/uploads/2024/05/Tendencia-consumo-de-lo-usado-1-002.jpg" alt="Categoria Productos usados">
         </figure>
-        <div class="info-product">
+        <div class="info-product-1">
             <h2>Productos usados</h2>
             <a href="#usados"><button>Buscar</button></a>
         </div>
     </div>
-    <div class="item">
+    <div class="categoria">
         <figure>
             <img src="https://i.pinimg.com/736x/a1/1a/ff/a11affbe1f566b92092d1a3eaf67f44b.jpg" alt="Categoria Artesanías">
         </figure>
-        <div class="info-product">
+        <div class="info-product-1">
             <h2>Artesanías</h2>
             <a href="#artesanias"><button>Buscar</button></a>
         </div>
@@ -104,12 +107,96 @@
 <div class="container-items">
     <div class="item">
         <figure>
-            <img src="https://i.pinimg.com/564x/0a/99/d7/0a99d7a26be11ca952646b7d6e751962.jpg" alt="Categoria Ropa">
+            <img src="https://i.pinimg.com/564x/0a/99/d7/0a99d7a26be11ca952646b7d6e751962.jpg" alt="Producto">
         </figure>
         <div class="info-product">
             <h2>Camisa rosada</h2>
             <p class="price">$20</p>
-            <button>Añadir al carrito</button>
+            <button class="btn-add-cart">Añadir al carrito</button>
+        </div>
+    </div>
+    <!-- Puedes agregar más productos aquí -->
+</div>
+<div class="titulos">
+    <h1 id="antiguedades">Antigüedades</h1>
+</div>
+<div class="container-items">
+    <div class="item">
+        <figure>
+            <img src="https://i.pinimg.com/236x/2c/37/81/2c378111408d244c55804349f717da82.jpg" alt="producto">
+        </figure>
+        <div class="info-product">
+            <h2>Espejo</h2>
+            <p class="price">$40</p>
+            <button class="btn-add-cart">Añadir al carrito</button>
+        </div>
+    </div>
+    <!-- Puedes agregar más productos aquí -->
+</div>
+
+<div class="titulos">
+    <h1 id="skincare">Cuidado de la piel</h1>
+</div>
+<div class="container-items">
+    <div class="item">
+        <figure>
+            <img src="https://i.pinimg.com/236x/c6/0c/ee/c60cee02bd7ff4ae061e592b3835f018.jpg" alt="producto">
+        </figure>
+        <div class="info-product">
+            <h2>Crema</h2>
+            <p class="price">$40</p>
+            <button class="btn-add-cart">Añadir al carrito</button>
+        </div>
+    </div>
+    <!-- Puedes agregar más productos aquí -->
+</div>
+
+<div class="titulos">
+    <h1 id="emprendimientos">Emprendimientos</h1>
+</div>
+<div class="container-items">
+    <div class="item">
+        <figure>
+            <img src="https://i.pinimg.com/236x/77/1a/62/771a628a35253f3c09b5b908be620aa5.jpg" alt="producto">
+        </figure>
+        <div class="info-product">
+            <h2>Cartera</h2>
+            <p class="price">$40</p>
+            <button class="btn-add-cart">Añadir al carrito</button>
+        </div>
+    </div>
+    <!-- Puedes agregar más productos aquí -->
+</div>
+
+<div class="titulos">
+    <h1 id="usados">Productos usados</h1>
+</div>
+<div class="container-items">
+    <div class="item">
+        <figure>
+            <img src="https://i.pinimg.com/236x/0b/3e/b8/0b3eb82a2033cd8f18f7df609448f32a.jpg" alt="producto">
+        </figure>
+        <div class="info-product">
+            <h2>Crema</h2>
+            <p class="price">$40</p>
+            <button class="btn-add-cart">Añadir al carrito</button>
+        </div>
+    </div>
+    <!-- Puedes agregar más productos aquí -->
+</div>
+
+<div class="titulos">
+    <h1 id="artesanias">Artesanías</h1>
+</div>
+<div class="container-items">
+    <div class="item">
+        <figure>
+            <img src="https://i.pinimg.com/236x/98/90/7f/98907fac6729da5bc52c733fe96cb832.jpg" alt="producto">
+        </figure>
+        <div class="info-product">
+            <h2>platos</h2>
+            <p class="price">$20</p>
+            <button class="btn-add-cart">Añadir al carrito</button>
         </div>
     </div>
     <!-- Puedes agregar más productos aquí -->

@@ -159,9 +159,43 @@ header{
     text-align: center;
     width: 100%;
     padding: 20px;
+    margin-top: 15px;
 }
 
 /*Main*/
+.container-categorias{
+    padding-top: 10px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.categoria{
+    border-radius: 10px;
+}
+
+.categoria:hover{
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.20);
+}
+
+.categoria img{
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px 10px 0 0;
+    transition: all .5s;
+}
+
+.categoria figure{
+    overflow: hidden;
+}
+
+.categoria:hover img{
+     transform: scale(1.2);
+}
+
+/**/
+
 .container-items{
     padding-top: 10px;
     display: grid;
@@ -201,6 +235,27 @@ header{
     gap: 10px;
 }
 
+.info-product-1{
+    padding: 15px 30px;
+    line-height: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+}
+
+.info-product-1 a button{
+    text-decoration: none;
+    color: white;
+    border: none;
+    background: none;
+    background-color: #3c9466;
+    color: #fff;
+    padding: 15px 10px;
+    cursor: pointer;
+    width: 100%;
+}
+
 .price{
     font-size: 18px;
     font-weight: 900;
@@ -225,6 +280,15 @@ header{
     padding: 15px 10px;
     cursor: pointer;
     width: 100%;
+}
+
+.cart-empty{
+    padding: 20px;
+    text-align: center;
+}
+
+.hidden{
+    display: none;
 }
 
 /*footer*/
