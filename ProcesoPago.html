@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proceso de Pago</title>
     <link rel="stylesheet" href="css/proceso_pago.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 <body>
     <h1 id="inf_pago">PROCESO DE PAGO</h1>
@@ -59,6 +60,50 @@
         </div>
 
     </div>
-
+    <script>
+        // Función para validar el número de tarjeta usando el Algoritmo de Luhn
+        function validarTarjeta(numeroTarjeta) {
+            let suma = 0;
+            let esPar = false;
+            for (let i = numeroTarjeta.length - 1; i >= 0; i--) {
+                let digito = parseInt(numeroTarjeta[i]);
+    
+                if (esPar) {
+                    digito *= 2;
+                    if (digito > 9) digito -= 9;
+                }
+    
+                suma += digito;
+                esPar = !esPar;
+            }
+    
+            return suma % 10 === 0;
+        }
+    
+        // Evento de envío del formulario
+        document.getElementById('form_pago').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevenir el envío del formulario
+    
+            const numeroTarjeta = document.getElementById('num_tarjeta').value.replace(/\s+/g, '');
+            
+            // Validar si el número de tarjeta es correcto
+            if (validarTarjeta(numeroTarjeta)) {
+                // Mostrar notificación de éxito si la tarjeta es válida
+                Swal.fire({
+                    title: "¡Compra exitosa!",
+                    text: "Tu pedido fue realizado correctamente.",
+                    icon: "success"
+                });
+            } else {
+                // Mostrar notificación de error si la tarjeta es inválida
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Ocurrió un error con el método de pago. No se puede completar la compra."
+                });
+            }
+        });
+    </script>
+    
 </body>
 </html>
