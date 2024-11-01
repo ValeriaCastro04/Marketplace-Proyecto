@@ -2,45 +2,77 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Registro de Vendedor</title>
     <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body id="login">
-        <header>
-            <a href="index.html"><img src="img/SiVARMARKET LOGO - Log In.png" alt="Logo SiVARMARKET" id="logo"></a>
-        </header>
-        <form action="Log-in-Vendedor.html" method="post">
-            <h1>Crear Cuenta</h1>
-            <fieldset id="logindatos">
-                <input type="image" src="img/user.png" class="img">
-                <input type="text" id="nombre" value="" pattern="^[a-zA-Z\s]+$" title="Solo se acepta letras" class="control" placeholder="Nombre" required><br>
-                <input type="image" src="img/tel.png" class="img">
-                <input type="tel" id="telefono" value="" pattern="^[0-9{4}-?[0-9]{4}$]" title="Solo acepta numeros en el siguiente formato: 2222-2222" class="control" placeholder="Numero de telefono" required><br>
-                <input type="image" src="img/email.png" class="img">
-                <input type="email" id="correo" value="" title="Formato de correo: NombreCorreo@dominio" class="control" placeholder="Correo Electronico" required><br>
-                <input type="image" src="img/pass.png" class="img">
-                <input type="password" id="password" value="" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}" title="Su contraseña debe ser de 6 a 15 caracteres y deben incluir una letra mayúscula, minúscula y un número" class="control" placeholder="Contraseña" required><br>
-                <button id="boton" type="submit" class="boton">Crear Cuenta</button>
-            </fieldset>
-        </form>
+    <header>
+        <a href="index.html"><img src="img/SiVARMARKET LOGO - Log In.png" alt="Logo SiVARMARKET" id="logo"></a>
+    </header>
+    <form id="registerForm">
+        <h1>Crear Cuenta</h1>
+        <fieldset id="logindatos">
+            <input type="image" src="img/user.png" class="img">
+            <input type="text" id="nombre" pattern="^[a-zA-Z\s]+$" title="Solo se acepta letras" class="control" placeholder="Nombre" required><br>
+            <input type="image" src="img/tel.png" class="img">
+            <input type="tel" id="telefono" pattern="^[0-9]{4}-?[0-9]{4}$" title="Formato: 2222-2222" class="control" placeholder="Numero de telefono" required><br>
+            <input type="image" src="img/email.png" class="img">
+            <input type="email" id="correo" title="Formato: NombreCorreo@dominio" class="control" placeholder="Correo Electronico" required><br>
+            <input type="image" src="img/pass.png" class="img">
+            <input type="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}" title="6-15 caracteres, una mayúscula, una minúscula y un número" class="control" placeholder="Contraseña" required><br>
+            <button type="submit" class="boton">Crear Cuenta</button>
+        </fieldset>
+    </form>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+        // Configuración de Firebase (reemplaza con tu configuración)
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Inicializar Firebase y Firestore
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Referencia al formulario
+        const form = document.getElementById("registerForm");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault(); // Prevenir recarga de página al enviar el formulario
+
+            // Obtener valores del formulario
+            const nombre = document.getElementById("nombre").value;
+            const telefono = document.getElementById("telefono").value;
+            const correo = document.getElementById("correo").value;
+            const password = document.getElementById("password").value;
+
+            try {
+                // Añadir el documento a Firestore
+                const docRef = await addDoc(collection(db, "vendedores"), {
+                    nombre: nombre,
+                    telefono: telefono,
+                    correo: correo,
+                    password: password,
+                    fechaRegistro: new Date().toISOString() // Fecha de registro
+                });
+
+                alert("Cuenta creada exitosamente. ID del documento: " + docRef.id);
+                form.reset(); // Limpiar el formulario
+                window.location.href = "LogInVendedor.html"; // Redirigir al inicio de sesión
+
+            } catch (error) {
+                console.error("Error al crear la cuenta:", error);
+                alert("Error: No se pudo crear la cuenta. Verifica los permisos de Firestore.");
+            }
+        });
+    </script>
 </body>
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyDZigv2X5_57XfBkfE4zb2R2GobZ90igVI",
-      authDomain: "proyectometodologias-2186a.firebaseapp.com",
-      projectId: "proyectometodologias-2186a",
-      storageBucket: "proyectometodologias-2186a.firebasestorage.app",
-      messagingSenderId: "1035665597993",
-      appId: "1:1035665597993:web:fd75c9d15de9988b7a5e38"
-    };
-  
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-  </script>
 </html>

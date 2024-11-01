@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Iniciar Sesión</title>
     <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body id="login">
@@ -13,71 +13,53 @@
         <h1>Iniciar sesión</h1>
         <fieldset id="logindatos">
             <input type="image" src="img/email.png" class="img">
-            <input type="email" id="correo" value="" title="Formato de correo: NombreCorreo@dominio" class="control" placeholder="Correo Electronico" required><br>
+            <input type="email"  id="correo" class="control" placeholder="Correo Electronico" required><br>
             <input type="image" src="img/pass.png" class="img">
-            <input type="password" id="password" value="" pattern="((?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15})" title="Su contraseña debe ser de 6 a 15 caracteres y deben incluir una letra mayúscula, minúscula y un número" class="control" placeholder="Contraseña" required><br>
-            <button id="boton" type="submit" class="boton">Iniciar sesión</button>
+            <input type="password" id="password" class="control" placeholder="Contraseña" required><br>
+            <button type="submit" class="boton">Iniciar sesión</button>
         </fieldset>
     </form>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script type="module">
-        // Importa las funciones de Firebase necesarias
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
-        // Configuración de Firebase
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
         const firebaseConfig = {
-            apiKey: "AIzaSyDZigv2X5_57XfBkfE4zb2R2GobZ90igVI",
-            authDomain: "proyectometodologias-2186a.firebaseapp.com",
-            projectId: "proyectometodologias-2186a",
-            storageBucket: "proyectometodologias-2186a.appspot.com",
-            messagingSenderId: "1035665597993",
-            appId: "1:1035665597993:web:fd75c9d15de9988b7a5e38"
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_AUTH_DOMAIN",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_STORAGE_BUCKET",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
         };
 
-        // Inicializa Firebase
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app); // Inicialización de auth después de app
+        const db = getFirestore(app);
 
-        // Maneja el envío del formulario de inicio de sesión
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('loginForm');
-            const correo = document.getElementById('correo');
-            const password = document.getElementById('password');
+        const form = document.getElementById('loginForm');
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
 
-            form.addEventListener('submit', function(event) {
-                event.preventDefault(); // Prevenir el envío tradicional del formulario
+            const correo = document.getElementById('correo').value;
+            const password = document.getElementById('password').value;
 
-                const email = correo.value;
-                const pass = password.value;
+            try {
+                const vendedoresRef = collection(db, "vendedores");
+                const q = query(vendedoresRef, where("correo", "==", correo), where("password", "==", password));
+                const querySnapshot = await getDocs(q);
 
-                // Inicia sesión con Firebase
-                signInWithEmailAndPassword(auth, email, pass)
-                    .then((userCredential) => {
-                        // Usuario autenticado exitosamente
-                        Swal.fire({
-                            title: "¡Bienvenido!",
-                            text: "Has iniciado sesión correctamente.",
-                            icon: "success",
-                            confirmButtonText: "OK"
-                        }).then((result) => {
-                            if (result.isConfirmed) {
-                                // Redirigir a la página de indexVendedor.html
-                                window.location.href = 'indexVendedor.html';
-                            }
-                        });
-                    })
-                    .catch((error) => {
-                        // Error en la autenticación
-                        const errorMessage = error.message;
-                        Swal.fire({
-                            icon: "error",
-                            title: "Error",
-                            text: "Credenciales incorrectas o usuario no registrado.",
-                            footer: `<p>${errorMessage}</p>`
-                        });
-                    });
-            });
+                if (!querySnapshot.empty) {
+                    const vendedor = querySnapshot.docs[0];
+                    localStorage.setItem("vendedorId", vendedor.id);
+                    alert("Inicio de sesión exitoso");
+                    window.location.href = "CrearCatalogo.html";
+                } else {
+                    alert("Correo o contraseña incorrectos.");
+                }
+            } catch (error) {
+                console.error("Error al iniciar sesión:", error);
+                alert("Error: No se pudo iniciar sesión.");
+            }
         });
     </script>
 </body>

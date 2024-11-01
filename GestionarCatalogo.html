@@ -9,7 +9,7 @@
 <body>
 
 <header>
-    <img src="img/SiVARMARKET -LOGO1.png" alt="SiVARMARKET Logo" id="logo">
+    <img src="img/SiVARMARKET-LOGO1.png" alt="SiVARMARKET Logo" id="logo">
     <nav>
         <ul>
             <li><a href="VendedorPerfil.html">Mi perfil</a></li>
@@ -21,68 +21,76 @@
     </nav>
 </header>
 
-<div>
+<div class="titulo">
     <h1>Gestionar Catálogo de Productos</h1>
 </div>
 
 <section id="catalogo-productos">
-    <h2>Productos Disponibles</h2>
-<!--
-    <?php
-    // Conexión a la base de datos
-    $conn = new mysqli('localhost', 'root', '', 'catalogo_productos');
-    
-    // Verificar la conexión
-    if ($conn->connect_error) {
-        die("Conexión fallida: " . $conn->connect_error);
-    }
-
-    // Consulta para obtener los productos
-    $sql = "SELECT id, nombre, descripcion, precio, categoria, imagen FROM productos";
-    $result = $conn->query($sql);
-
-    if ($result->num_rows > 0) {
-        // Mostrar productos
-        while ($row = $result->fetch_assoc()) {
-            echo "<div class='producto'>";
-            echo "<h3>" . $row['nombre'] . "</h3>";
-            echo "<img src='uploads/" . $row['imagen'] . "' alt='Imagen del producto' style='max-width:200px;'>";
-            echo "<p>Descripción: " . $row['descripcion'] . "</p>";
-            echo "<p>Precio: $" . $row['precio'] . "</p>";
-            echo "<p>Categoría: " . $row['categoria'] . "</p>";
-            echo "<div class='acciones'>";
-            echo "<button class='editar'>Editar</button>";
-            echo "<button class='eliminar'>Eliminar</button>";
-            echo "</div>";
-            echo "</div>";
-        }
-    } else {
-        echo "<p>No hay productos en el catálogo.</p>";
-    }
-
-    $conn->close();
-    ?>
--->
+    <h2>Mis Productos</h2>
+    <div id="productosContainer"></div>
 </section>
 
-</body>
 <script type="module">
-    // Import the functions you need from the SDKs you need
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
+    import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
     const firebaseConfig = {
-      apiKey: "AIzaSyDZigv2X5_57XfBkfE4zb2R2GobZ90igVI",
-      authDomain: "proyectometodologias-2186a.firebaseapp.com",
-      projectId: "proyectometodologias-2186a",
-      storageBucket: "proyectometodologias-2186a.firebasestorage.app",
-      messagingSenderId: "1035665597993",
-      appId: "1:1035665597993:web:fd75c9d15de9988b7a5e38"
+        apiKey: "YOUR_API_KEY",
+        authDomain: "YOUR_AUTH_DOMAIN",
+        projectId: "YOUR_PROJECT_ID",
+        storageBucket: "YOUR_STORAGE_BUCKET",
+        messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+        appId: "YOUR_APP_ID"
     };
-  
-    // Initialize Firebase
+
     const app = initializeApp(firebaseConfig);
-  </script>
+    const db = getFirestore(app);
+
+    const vendedorId = localStorage.getItem("vendedorId");
+
+    if (!vendedorId) {
+        alert("Debes iniciar sesión para ver tus productos.");
+        window.location.href = "LogInVendedor.html";
+    }
+
+    const productosContainer = document.getElementById("productosContainer");
+
+    const cargarProductos = async () => {
+        try {
+            const productosRef = collection(db, "productos");
+            const q = query(productosRef, where("vendedorId", "==", vendedorId));
+            const querySnapshot = await getDocs(q);
+
+            productosContainer.innerHTML = "";
+            
+            querySnapshot.forEach((doc) => {
+                const producto = doc.data();
+                const productoElement = document.createElement("div");
+                productoElement.classList.add("producto");
+
+                productoElement.innerHTML = `
+                    <h3>${producto.nombre}</h3>
+                    <p>Descripción: ${producto.descripcion}</p>
+                    <p>Precio: $${producto.precio}</p>
+                    <p>Categoría: ${producto.categoria}</p>
+                    <p>Estado: <strong>${producto.estado}</strong></p>
+                `;
+
+                productosContainer.appendChild(productoElement);
+            });
+
+            if (querySnapshot.empty) {
+                productosContainer.innerHTML = "<p>No tienes productos en el catálogo.</p>";
+            }
+
+        } catch (error) {
+            console.error("Error al cargar los productos:", error);
+            alert("Error: No se pudieron cargar los productos.");
+        }
+    };
+
+    cargarProductos();
+</script>
+
+</body>
 </html>
