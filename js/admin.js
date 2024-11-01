@@ -61,6 +61,10 @@ class AdminPanel {
                     <button onclick="admin.rechazarProducto('${producto.id}', document.getElementById('nota-${producto.id}').value)">Enviar motivo</button>
                 </div>
                 ` : ''}
+                ${tipo === 'rechazados' && producto.motivoRechazo ? `
+                <h4>Motivo del Rechazo:</h4>
+                <p>${producto.motivoRechazo}</p>
+                ` : ''}
             </div>
         `).join('');
     }
