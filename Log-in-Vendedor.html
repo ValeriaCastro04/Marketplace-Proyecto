@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Iniciar Sesión</title>
+    <title>Iniciar sesión</title>
     <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body id="login">
@@ -13,16 +13,16 @@
         <h1>Iniciar sesión</h1>
         <fieldset id="logindatos">
             <input type="image" src="img/email.png" class="img">
-            <input type="email"  id="correo" class="control" placeholder="Correo Electronico" required><br>
+            <input type="email" id="correo" class="control" placeholder="Correo Electrónico" required><br>
             <input type="image" src="img/pass.png" class="img">
             <input type="password" id="password" class="control" placeholder="Contraseña" required><br>
-            <button type="submit" class="boton">Iniciar sesión</button>
+            <button id="boton" type="submit" class="boton">Iniciar sesión</button>
         </fieldset>
     </form>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
@@ -34,31 +34,23 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
+        const auth = getAuth();
 
-        const form = document.getElementById('loginForm');
-        form.addEventListener('submit', async (e) => {
+        const form = document.getElementById("loginForm");
+
+        form.addEventListener("submit", async (e) => {
             e.preventDefault();
 
-            const correo = document.getElementById('correo').value;
-            const password = document.getElementById('password').value;
+            const correo = document.getElementById("correo").value;
+            const password = document.getElementById("password").value;
 
             try {
-                const vendedoresRef = collection(db, "vendedores");
-                const q = query(vendedoresRef, where("correo", "==", correo), where("password", "==", password));
-                const querySnapshot = await getDocs(q);
-
-                if (!querySnapshot.empty) {
-                    const vendedor = querySnapshot.docs[0];
-                    localStorage.setItem("vendedorId", vendedor.id);
-                    alert("Inicio de sesión exitoso");
-                    window.location.href = "CrearCatalogo.html";
-                } else {
-                    alert("Correo o contraseña incorrectos.");
-                }
+                await signInWithEmailAndPassword(auth, correo, password);
+                alert("¡Inicio de sesión exitoso!");
+                window.location.href = "CrearCatalogo.html"; // Redirige al catálogo de creación
             } catch (error) {
                 console.error("Error al iniciar sesión:", error);
-                alert("Error: No se pudo iniciar sesión.");
+                alert("Error: No se pudo iniciar sesión. Verifique sus credenciales e intente de nuevo.");
             }
         });
     </script>

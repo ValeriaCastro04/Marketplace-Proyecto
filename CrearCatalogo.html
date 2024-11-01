@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Crear Catálogo de Productos</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
@@ -11,32 +10,32 @@
         <img src="img/SiVARMARKET-LOGO1.png" alt="SiVARMARKET Logo" id="logo">
         <nav>
             <ul>
-                <li><a href="VendedorPerfil.html">Mi perfil</a></li>
-                <li><a href="CrearCatalogo.html">Crear catálogo</a></li>
-                <li><a href="GestionarCatalogo.html">Gestionar catálogo</a></li>
-                <li><a href="OpcionesVendedor.html">Opciones</a></li>
-                <li><a href="Soporte.html">Soporte</a></li>
+              <li><a href="VendedorPerfil.html">Mi perfil</a></li>
+              <li><a href="CrearCatalogo.html">Crear catálogo</a></li>
+              <li><a href="GestionarCatalogo.html">Gestionar catálogo</a></li>
+              <li><a href="OpcionesVendedor.html">Opciones</a></li>
+              <li><a href="Soporte.html">Soporte</a></li>
             </ul>
-        </nav>
+          </nav>
     </header>
     
     <div class="titulo">
         <h1>Crear Catálogo de Productos</h1>
     </div>
-    <section id="formulario-producto" style="display: none;">
+    <section id="formulario-producto">
         <h2>Añadir Nuevo Producto</h2>
         <form id="productForm">
             <label for="nombre_producto">Nombre del Producto:</label>
-            <input type="text" id="nombre_producto" placeholder="Escriba el nombre del producto" required>
+            <input type="text" id="nombre_producto" name="nombre_producto" placeholder="Escriba el nombre del producto" required>
             
             <label for="descripcion_producto">Descripción:</label>
-            <textarea id="descripcion_producto" rows="4" placeholder="Descripción" required></textarea>
+            <textarea id="descripcion_producto" name="descripcion_producto" rows="4" placeholder="Escriba una breve descripción del producto" required></textarea>
             
             <label for="precio_producto">Precio (USD):</label>
-            <input type="number" id="precio_producto" step="0.01" placeholder="Escriba el precio" required>
+            <input type="number" id="precio_producto" name="precio_producto" step="0.01" placeholder="Escriba el precio" required>
             
             <label for="categoria_producto">Categoría:</label>
-            <select id="categoria_producto" required>
+            <select id="categoria_producto" name="categoria_producto" required>
                 <option value="Ropa">Ropa</option>
                 <option value="Antigüedades">Antigüedades</option>
                 <option value="Cuidado de la piel">Cuidado de la piel</option>
@@ -46,17 +45,16 @@
             </select>
 
             <label for="imagen_url">URL de la Imagen:</label>
-            <input type="url" id="imagen_url" placeholder="https://ejemplo.com/imagen.jpg" required><br>
+            <input type="url" id="imagen_url" name="imagen_url" placeholder="https://ejemplo.com/imagen.jpg" required><br>
 
             <button type="submit">Añadir Producto</button>
         </form>
     </section>
 
-    <p id="loadingMessage">Verificando el estado de autenticación...</p>
-
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
@@ -69,15 +67,21 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const auth = getAuth(app);
 
-        const vendedorId = localStorage.getItem("vendedorId");
+        let currentUser;
 
-        if (!vendedorId) {
-            alert("Debes iniciar sesión para agregar productos.");
-            window.location.href = "LogInVendedor.html";
-        }
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUser = user;
+            } else {
+                alert("Debes iniciar sesión para agregar productos.");
+                window.location.href = "LogInVendedor.html";
+            }
+        });
 
         const form = document.getElementById("productForm");
+
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
 
@@ -85,22 +89,29 @@
             const descripcion = document.getElementById("descripcion_producto").value;
             const precio = parseFloat(document.getElementById("precio_producto").value);
             const categoria = document.getElementById("categoria_producto").value;
+            const imagenUrl = document.getElementById("imagen_url").value;
 
-            try {
-                await addDoc(collection(db, "productos"), {
-                    nombre,
-                    descripcion,
-                    precio,
-                    categoria,
-                    vendedorId,
-                    estado: "pendiente"
-                });
+            if (currentUser) {
+                try {
+                    await addDoc(collection(db, "productos"), {
+                        nombre: nombre,
+                        descripcion: descripcion,
+                        precio: precio,
+                        categoria: categoria,
+                        imagenURL: imagenUrl,
+                        fechaCreacion: serverTimestamp(),
+                        vendedorId: currentUser.uid, // ID del vendedor autenticado
+                        estado: "pendiente" // Estado inicial de aprobación
+                    });
 
-                alert("¡Producto agregado correctamente!");
-                form.reset();
-            } catch (error) {
-                console.error("Error al agregar el producto:", error);
-                alert("Error: No se pudo agregar el producto.");
+                    alert("Producto agregado exitosamente.");
+                    form.reset();
+                } catch (error) {
+                    console.error("Error al agregar el producto:", error);
+                    alert("Error: No se pudo agregar el producto.");
+                }
+            } else {
+                alert("Debes iniciar sesión para agregar productos.");
             }
         });
     </script>

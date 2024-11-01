@@ -9,26 +9,26 @@
     <header>
         <a href="index.html"><img src="img/SiVARMARKET LOGO - Log In.png" alt="Logo SiVARMARKET" id="logo"></a>
     </header>
-    <form id="registerForm">
+    <form id="registroForm">
         <h1>Crear Cuenta</h1>
         <fieldset id="logindatos">
             <input type="image" src="img/user.png" class="img">
             <input type="text" id="nombre" pattern="^[a-zA-Z\s]+$" title="Solo se acepta letras" class="control" placeholder="Nombre" required><br>
             <input type="image" src="img/tel.png" class="img">
-            <input type="tel" id="telefono" pattern="^[0-9]{4}-?[0-9]{4}$" title="Formato: 2222-2222" class="control" placeholder="Numero de telefono" required><br>
+            <input type="tel" id="telefono" pattern="^[0-9]{4}-?[0-9]{4}$" title="Solo acepta números en formato 2222-2222" class="control" placeholder="Número de teléfono" required><br>
             <input type="image" src="img/email.png" class="img">
-            <input type="email" id="correo" title="Formato: NombreCorreo@dominio" class="control" placeholder="Correo Electronico" required><br>
+            <input type="email" id="correo" class="control" placeholder="Correo Electrónico" required><br>
             <input type="image" src="img/pass.png" class="img">
-            <input type="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}" title="6-15 caracteres, una mayúscula, una minúscula y un número" class="control" placeholder="Contraseña" required><br>
-            <button type="submit" class="boton">Crear Cuenta</button>
+            <input type="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}" title="Debe incluir mayúscula, minúscula y número, de 6 a 15 caracteres" class="control" placeholder="Contraseña" required><br>
+            <button id="boton" type="submit" class="boton">Crear Cuenta</button>
         </fieldset>
     </form>
 
-<script type="module">
+    <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
-        // Configuración de Firebase (reemplaza con tu configuración)
         const firebaseConfig = {
             apiKey: "YOUR_API_KEY",
             authDomain: "YOUR_AUTH_DOMAIN",
@@ -38,41 +38,38 @@
             appId: "YOUR_APP_ID"
         };
 
-        // Inicializar Firebase y Firestore
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
+        const auth = getAuth();
 
-        // Referencia al formulario
-        const form = document.getElementById("registerForm");
+        const form = document.getElementById("registroForm");
 
         form.addEventListener("submit", async (e) => {
-            e.preventDefault(); // Prevenir recarga de página al enviar el formulario
+            e.preventDefault();
 
-            // Obtener valores del formulario
             const nombre = document.getElementById("nombre").value;
             const telefono = document.getElementById("telefono").value;
             const correo = document.getElementById("correo").value;
             const password = document.getElementById("password").value;
 
             try {
-                // Añadir el documento a Firestore
-                const docRef = await addDoc(collection(db, "vendedores"), {
+                const userCredential = await createUserWithEmailAndPassword(auth, correo, password);
+                const user = userCredential.user;
+
+                await setDoc(doc(db, "vendedores", user.uid), {
                     nombre: nombre,
                     telefono: telefono,
                     correo: correo,
-                    password: password,
-                    fechaRegistro: new Date().toISOString() // Fecha de registro
+                    fechaRegistro: new Date()
                 });
 
-                alert("Cuenta creada exitosamente. ID del documento: " + docRef.id);
-                form.reset(); // Limpiar el formulario
-                window.location.href = "LogInVendedor.html"; // Redirigir al inicio de sesión
-
+                alert("¡Cuenta creada exitosamente!");
+                window.location.href = "Log-in-Vendedor.html";
             } catch (error) {
                 console.error("Error al crear la cuenta:", error);
-                alert("Error: No se pudo crear la cuenta. Verifica los permisos de Firestore.");
+                alert("Error: No se pudo crear la cuenta. Verifique la información e intente de nuevo.");
             }
         });
-</script>
+    </script>
 </body>
 </html>
