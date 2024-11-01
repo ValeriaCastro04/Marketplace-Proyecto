@@ -25,37 +25,44 @@
     </form>
 
     <script type="module">
+        // Importa Firebase y sus funciones necesarias
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
         import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
+        // Configuración de Firebase
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyDZigv2X5_57XfBkfE4zb2R2GobZ90igVI",
+            authDomain: "proyectometodologias-2186a.firebaseapp.com",
+            projectId: "proyectometodologias-2186a",
+            storageBucket: "proyectometodologias-2186a.appspot.com",
+            messagingSenderId: "1035665597993",
+            appId: "1:1035665597993:web:fd75c9d15de9988b7a5e38"
         };
 
+        // Inicializa Firebase
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth();
 
+        // Manejo de envío del formulario de registro
         const form = document.getElementById("registroForm");
 
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
 
+            // Obtiene los valores del formulario
             const nombre = document.getElementById("nombre").value;
             const telefono = document.getElementById("telefono").value;
             const correo = document.getElementById("correo").value;
             const password = document.getElementById("password").value;
 
             try {
+                // Crea el usuario en Firebase Authentication
                 const userCredential = await createUserWithEmailAndPassword(auth, correo, password);
                 const user = userCredential.user;
 
+                // Agrega el vendedor a la colección "vendedores" en Firestore
                 await setDoc(doc(db, "vendedores", user.uid), {
                     nombre: nombre,
                     telefono: telefono,

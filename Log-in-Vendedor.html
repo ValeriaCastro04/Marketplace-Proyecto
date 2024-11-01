@@ -25,32 +25,34 @@
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_AUTH_DOMAIN",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyDZigv2X5_57XfBkfE4zb2R2GobZ90igVI",
+            authDomain: "proyectometodologias-2186a.firebaseapp.com",
+            projectId: "proyectometodologias-2186a",
+            storageBucket: "proyectometodologias-2186a.appspot.com",
+            messagingSenderId: "1035665597993",
+            appId: "1:1035665597993:web:fd75c9d15de9988b7a5e38"
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth();
 
-        const form = document.getElementById("loginForm");
+        const loginForm = document.getElementById("loginForm");
 
-        form.addEventListener("submit", async (e) => {
+        loginForm.addEventListener("submit", async (e) => {
             e.preventDefault();
 
             const correo = document.getElementById("correo").value;
             const password = document.getElementById("password").value;
 
             try {
-                await signInWithEmailAndPassword(auth, correo, password);
+                const userCredential = await signInWithEmailAndPassword(auth, correo, password);
+                const user = userCredential.user;
+
                 alert("¡Inicio de sesión exitoso!");
-                window.location.href = "CrearCatalogo.html"; // Redirige al catálogo de creación
+                window.location.href = "CrearCatalogo.html";
             } catch (error) {
                 console.error("Error al iniciar sesión:", error);
-                alert("Error: No se pudo iniciar sesión. Verifique sus credenciales e intente de nuevo.");
+                alert("Error: Credenciales incorrectas. Intente de nuevo.");
             }
         });
     </script>
