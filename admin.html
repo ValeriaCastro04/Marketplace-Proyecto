@@ -10,7 +10,7 @@
 <body>
     <header>
         <h1>
-            <img src="img/SiVARMARKET -LOGO1.png" alt="Logo de SiVARMARKET" >
+            <img src="img/SiVARMARKET -LOGO1.png" alt="Logo de SiVARMARKET">
             Panel de Control SiVARMARKET
         </h1>
         <nav>
@@ -21,7 +21,6 @@
             </ul>
         </nav>
     </header>
-    
 
     <main>
         <section id="administracion-productos">
@@ -47,24 +46,102 @@
             </div>
         </section>
     </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, collection, query, where, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDZigv2X5_57XfBkfE4zb2R2GobZ90igVI",
+            authDomain: "proyectometodologias-2186a.firebaseapp.com",
+            projectId: "proyectometodologias-2186a",
+            storageBucket: "proyectometodologias-2186a.appspot.com",
+            messagingSenderId: "1035665597993",
+            appId: "1:1035665597993:web:fd75c9d15de9988b7a5e38"
+        };
+
+        // Inicializa Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // Función para cargar y mostrar productos por estado
+        async function cargarProductos() {
+            const productosRef = collection(db, "productos");
+
+            // Consultas para productos en diferentes estados
+            const productosEnEspera = query(productosRef, where("estado", "==", "pendiente"));
+            const productosAprobados = query(productosRef, where("estado", "==", "aprobado"));
+            const productosRechazados = query(productosRef, where("estado", "==", "rechazado"));
+
+            // Mostrar productos
+            await mostrarProductos(productosEnEspera, "lista-espera", "pendiente");
+            await mostrarProductos(productosAprobados, "lista-aprobados", "aprobado");
+            await mostrarProductos(productosRechazados, "lista-rechazados", "rechazado");
+        }
+
+        // Función para mostrar productos en cada lista
+        async function mostrarProductos(queryRef, containerId, estado) {
+            const container = document.getElementById(containerId);
+            const querySnapshot = await getDocs(queryRef);
+            container.innerHTML = "";
+
+            querySnapshot.forEach((doc) => {
+                const producto = doc.data();
+                const productoId = doc.id;
+                
+                container.innerHTML += `
+                    <div class="producto">
+                        <h4>Nombre del Producto:</h4>
+                        <p>${producto.nombre}</p>
+                        <h4>Descripción:</h4>
+                        <p>${producto.descripcion}</p>
+                        <h4>Precio (USD):</h4>
+                        <p>${producto.precio}</p>
+                        <h4>Categoría:</h4>
+                        <p>${producto.categoria}</p>
+                        <h4>Imagen del Producto:</h4>
+                        <img src="${producto.imagenURL}" alt="${producto.nombre}" width="100">
+                        ${estado === "pendiente" ? `
+                        <button class="aprobar" onclick="aprobarProducto('${productoId}')">Aprobar</button>
+                        <button class="rechazar" onclick="mostrarCampoMotivo('${productoId}')">Rechazar</button>
+                        <div id="motivo-${productoId}" class="motivo-container" style="display:none;">
+                            <textarea placeholder="Escribe el motivo del rechazo" id="nota-${productoId}" class="nota"></textarea>
+                            <button onclick="rechazarProducto('${productoId}', document.getElementById('nota-${productoId}').value)">Enviar motivo</button>
+                        </div>
+                        ` : `<p>Estado: ${producto.estado}</p>`}
+                    </div>
+                `;
+            });
+        }
+
+        // Función para aprobar producto
+        async function aprobarProducto(id) {
+            const productoRef = doc(db, "productos", id);
+            await updateDoc(productoRef, { estado: "aprobado" });
+            alert("Producto aprobado");
+            cargarProductos(); // Recargar productos
+        }
+
+        // Función para rechazar producto con motivo
+        async function rechazarProducto(id, motivo) {
+            if (!motivo) {
+                alert("Por favor, ingresa un motivo para rechazar el producto.");
+                return;
+            }
+            const productoRef = doc(db, "productos", id);
+            await updateDoc(productoRef, { estado: "rechazado", motivoRechazo: motivo });
+            alert("Producto rechazado");
+            cargarProductos(); // Recargar productos
+        }
+
+        // Función para mostrar el campo de motivo de rechazo
+        function mostrarCampoMotivo(id) {
+            document.getElementById(`motivo-${id}`).style.display = 'block';
+        }
+
+        // Inicializar la carga de productos al cargar la página
+        cargarProductos();
+    </script>
 </body>
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyDZigv2X5_57XfBkfE4zb2R2GobZ90igVI",
-      authDomain: "proyectometodologias-2186a.firebaseapp.com",
-      projectId: "proyectometodologias-2186a",
-      storageBucket: "proyectometodologias-2186a.firebasestorage.app",
-      messagingSenderId: "1035665597993",
-      appId: "1:1035665597993:web:fd75c9d15de9988b7a5e38"
-    };
-  
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-  </script>
 </html>

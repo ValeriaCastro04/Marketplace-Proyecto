@@ -1,8 +1,8 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Login Administrador</title>
     <link rel="stylesheet" href="css/admin_login_style.css">
 </head>
 <body id="login-page">
@@ -25,25 +25,49 @@
             <button id="boton" type="submit" class="boton">Ingresar</button>
         </fieldset>
     </form>
+
     <script type="module">
-        // Import the functions you need from the SDKs you need
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        // TODO: Add SDKs for Firebase products that you want to use
-        // https://firebase.google.com/docs/web/setup#available-libraries
-      
-        // Your web app's Firebase configuration
+        import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+        // Configuración de Firebase
         const firebaseConfig = {
-          apiKey: "AIzaSyDZigv2X5_57XfBkfE4zb2R2GobZ90igVI",
-          authDomain: "proyectometodologias-2186a.firebaseapp.com",
-          projectId: "proyectometodologias-2186a",
-          storageBucket: "proyectometodologias-2186a.firebasestorage.app",
-          messagingSenderId: "1035665597993",
-          appId: "1:1035665597993:web:fd75c9d15de9988b7a5e38"
+            apiKey: "AIzaSyDZigv2X5_57XfBkfE4zb2R2GobZ90igVI",
+            authDomain: "proyectometodologias-2186a.firebaseapp.com",
+            projectId: "proyectometodologias-2186a",
+            storageBucket: "proyectometodologias-2186a.appspot.com",
+            messagingSenderId: "1035665597993",
+            appId: "1:1035665597993:web:fd75c9d15de9988b7a5e38"
         };
-      
-        // Initialize Firebase
+
+        // Inicializa Firebase
         const app = initializeApp(firebaseConfig);
-      </script>
-    <script src="js/login.js"></script>
+        const db = getFirestore(app);
+
+        // Lógica de inicio de sesión
+        document.getElementById('loginForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const correo = document.getElementById('correo').value;
+            const contrasena = document.getElementById('contrasena').value;
+
+            try {
+                // Consulta Firestore para verificar el correo y la contraseña
+                const adminRef = collection(db, "admin");
+                const q = query(adminRef, where("email", "==", correo), where("password", "==", contrasena));
+                const querySnapshot = await getDocs(q);
+
+                if (!querySnapshot.empty) {
+                    alert("Inicio de sesión exitoso.");
+                    window.location.href = 'admin.html';
+                } else {
+                    alert("Credenciales inválidas. Por favor, intenta de nuevo.");
+                }
+            } catch (error) {
+                console.error("Error al verificar el administrador:", error); // Detalle de error en consola
+                alert("Ocurrió un error al intentar iniciar sesión. Por favor, intenta más tarde.");
+            }
+        });
+    </script>
 </body>
 </html>

@@ -27,7 +27,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-        import { getFirestore, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getFirestore, collection, doc, setDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
         // Configuración de Firebase
         const firebaseConfig = {
@@ -43,7 +43,7 @@
         const auth = getAuth(app);
         const db = getFirestore(app);
 
-        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+        document.getElementById('registroForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const nombre = document.getElementById('nombre').value;
@@ -61,7 +61,7 @@
                     nombre: nombre,
                     telefono: telefono,
                     correo: correo,
-                    fechaRegistro: new Date(),
+                    fechaRegistro: serverTimestamp(), // Utiliza serverTimestamp para registrar la fecha de creación
                     uid: uid // Almacena el UID aquí
                 });
 
