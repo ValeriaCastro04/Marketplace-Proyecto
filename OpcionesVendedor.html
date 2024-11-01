@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Opciones - SiVARMARKET</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <img src="img/SiVARMARKET -LOGO1.png" alt="SiVARMARKET Logo" id="logo">
+        <nav>
+            <ul>
+                <li><a href="VendedorPerfil.html">Mi perfil</a></li>
+                <li><a href="CrearCatalogo.html">Crear catálogo</a></li>
+                <li><a href="GestionarCatalogo.html">Gestionar catálogo</a></li>
+                <li><a href="OpcionesVendedor.html">Opciones</a></li>
+                <li><a href="Soporte.html">Soporte</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="contenido" style="display: flex; justify-content: center; padding: 20px;">
+        <section style="width: 100%; max-width: 700px; background-color: #eaf7e3; padding: 20px; border-radius: 10px;">
+            <div class="titulo" style="text-align: center; margin-bottom: 20px;">
+                <h1 style="background-color: #236b45; color: whitesmoke; padding: 10px; border-radius: 5px;">Opciones de Cuenta</h1>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <h2 style="color: #236b45; margin-bottom: 10px;">Cambiar Contraseña</h2>
+                <form action="#" method="post">
+                    <label for="current-password">Contraseña Actual:</label>
+                    <input type="password" id="current-password" name="current-password" style="width: 100%; padding: 10px; margin-top: 5px; margin-bottom: 10px;">
+
+                    <label for="new-password">Nueva Contraseña:</label>
+                    <input type="password" id="new-password" name="new-password" style="width: 100%; padding: 10px; margin-top: 5px; margin-bottom: 10px;">
+
+                    <label for="confirm-password">Confirmar Nueva Contraseña:</label>
+                    <input type="password" id="confirm-password" name="confirm-password" style="width: 100%; padding: 10px; margin-top: 5px; margin-bottom: 10px;">
+
+                    <button type="submit" style="width: 100%; padding: 12px; background-color: #236b45; color: white; font-size: 18px; border: none; border-radius: 5px; cursor: pointer;">Actualizar Contraseña</button>
+                </form>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <h2 style="color: #236b45; margin-bottom: 10px;">Preferencias de Notificación</h2>
+                <form action="#">
+                    <label>
+                        <input type="checkbox" name="notifications" checked style="margin-right: 10px;">
+                        Recibir notificaciones de nuevos mensajes
+                    </label><br>
+
+                    <label>
+                        <input type="checkbox" name="notifications" style="margin-right: 10px;">
+                        Notificaciones de actividad de ventas
+                    </label><br>
+
+                    <label>
+                        <input type="checkbox" name="notifications" style="margin-right: 10px;">
+                        Promociones y ofertas especiales
+                    </label><br>
+
+                    <button type="submit" style="width: 100%; padding: 12px; background-color: #236b45; color: white; font-size: 18px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">Guardar Preferencias</button>
+                </form>
+            </div>
+
+            <div style="margin-bottom: 20px;">
+                <h2 style="color: #236b45; margin-bottom: 10px;">Preferencia de Tema</h2>
+                <form action="#">
+                    <p style="font-size: 14px; color: #666; margin-bottom: 15px;">
+                        Elige el tema que prefieras para la interfaz de la plataforma.
+                    </p>
+            
+                    <label style="display: flex; align-items: center; margin-bottom: 10px;">
+                        <input type="radio" name="theme" value="light" checked style="margin-right: 10px;">
+                        Tema Claro
+                    </label>
+                    
+                    <label style="display: flex; align-items: center; margin-bottom: 10px;">
+                        <input type="radio" name="theme" value="dark" style="margin-right: 10px;">
+                        Tema Oscuro
+                    </label>
+            
+                    <button type="submit" style="width: 100%; padding: 12px; background-color: #236b45; color: white; font-size: 18px; border: none; border-radius: 5px; cursor: pointer; margin-top: 10px;">Guardar Preferencia de Tema</button>
+                </form>
+            </div>
+</body>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyDZigv2X5_57XfBkfE4zb2R2GobZ90igVI",
+      authDomain: "proyectometodologias-2186a.firebaseapp.com",
+      projectId: "proyectometodologias-2186a",
+      storageBucket: "proyectometodologias-2186a.firebasestorage.app",
+      messagingSenderId: "1035665597993",
+      appId: "1:1035665597993:web:fd75c9d15de9988b7a5e38"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+  </script>
+</html>

@@ -1,4 +1,9 @@
-// registro-vendedor.js
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+const auth = getAuth();
+const db = getFirestore();
+
 class RegistroVendedor {
     constructor() {
         this.form = document.querySelector('form');
@@ -43,8 +48,17 @@ class RegistroVendedor {
     }
 
     async registrarVendedor(datos) {
-        // Aquí iría la lógica de conexión con el backend
-        return new Promise(resolve => setTimeout(resolve, 1000));
+        // Crea el usuario en Firebase Authentication
+        const userCredential = await createUserWithEmailAndPassword(auth, datos.correo, datos.password);
+        const user = userCredential.user;
+
+        // Guarda información adicional en Firestore
+        await addDoc(collection(db, 'vendedores'), {
+            uid: user.uid,
+            nombre: datos.nombre,
+            telefono: datos.telefono,
+            correo: datos.correo
+        });
     }
 }
 

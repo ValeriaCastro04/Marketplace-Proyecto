@@ -101,6 +101,9 @@ const showHTML = () => {
     valorTotal.innerText = `$${total}`;
     countProducts.innerText = totalOfProducts;
 
+    // Guardar el carrito en localStorage
+    localStorage.setItem('carrito', JSON.stringify(allProducts));
+
     // Agregar el botón "Ir a pagar" si hay productos en el carrito
     if (totalOfProducts > 0) {
         let btnCheckout = document.querySelector('.btn-checkout');

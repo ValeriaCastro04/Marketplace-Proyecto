@@ -2,26 +2,76 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Login</title>
+    <title>Registro de Vendedor</title>
     <link rel="stylesheet" href="css/estilo.css">
 </head>
 <body id="login">
-        <header>
-            <a href="inicio.html"><img src="img/SiVARMARKET LOGO - Log In.png" alt="Logo SiVARMARKET" id="logo"></a>
-        </header>
-        <form action="Log-in-Vendedor.html" method="post">
-            <h1>Crear Cuenta</h1>
-            <fieldset id="logindatos">
-                <input type="image" src="img/user.png" class="img">
-                <input type="text" id="nombre" value="" pattern="^[a-zA-Z\s]+$" title="Solo se acepta letras" class="control" placeholder="Nombre" required><br>
-                <input type="image" src="img/tel.png" class="img">
-                <input type="tel" id="telefono" value="" pattern="^[0-9{4}-?[0-9]{4}$]" title="Solo acepta numeros en el siguiente formato: 2222-2222" class="control" placeholder="Numero de telefono" required><br>
-                <input type="image" src="img/email.png" class="img">
-                <input type="email" id="correo" value="" title="Formato de correo: NombreCorreo@dominio" class="control" placeholder="Correo Electronico" required><br>
-                <input type="image" src="img/pass.png" class="img">
-                <input type="password" id="password" value="" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}" title="Su contraseña debe ser de 6 a 15 caracteres y deben incluir una letra mayúscula, minúscula y un número" class="control" placeholder="Contraseña" required><br>
-                <button id="boton" type="submit" class="boton">Crear Cuenta</button>
-            </fieldset>
-        </form>
+    <header>
+        <a href="index.html"><img src="img/SiVARMARKET LOGO - Log In.png" alt="Logo SiVARMARKET" id="logo"></a>
+    </header>
+    <form id="registroForm">
+        <h1>Crear Cuenta</h1>
+        <fieldset id="logindatos">
+            <input type="image" src="img/user.png" class="img">
+            <input type="text" id="nombre" pattern="^[a-zA-Z\s]+$" title="Solo se acepta letras" class="control" placeholder="Nombre" required><br>
+            <input type="image" src="img/tel.png" class="img">
+            <input type="tel" id="telefono" pattern="^[0-9]{4}-?[0-9]{4}$" title="Solo acepta números en formato 2222-2222" class="control" placeholder="Número de teléfono" required><br>
+            <input type="image" src="img/email.png" class="img">
+            <input type="email" id="correo" class="control" placeholder="Correo Electrónico" required><br>
+            <input type="image" src="img/pass.png" class="img">
+            <input type="password" id="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,15}" title="Debe incluir mayúscula, minúscula y número, de 6 a 15 caracteres" class="control" placeholder="Contraseña" required><br>
+            <button id="boton" type="submit" class="boton">Crear Cuenta</button>
+        </fieldset>
+    </form>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyDZigv2X5_57XfBkfE4zb2R2GobZ90igVI",
+            authDomain: "proyectometodologias-2186a.firebaseapp.com",
+            projectId: "proyectometodologias-2186a",
+            storageBucket: "proyectometodologias-2186a.appspot.com",
+            messagingSenderId: "1035665597993",
+            appId: "1:1035665597993:web:fd75c9d15de9988b7a5e38"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const nombre = document.getElementById('nombre').value;
+            const telefono = document.getElementById('telefono').value;
+            const correo = document.getElementById('correo').value;
+            const password = document.getElementById('password').value;
+
+            try {
+                // Crear usuario y obtener UID
+                const userCredential = await createUserWithEmailAndPassword(auth, correo, password);
+                const uid = userCredential.user.uid;
+
+                // Guardar en la colección de vendedores
+                await setDoc(doc(db, "vendedores", uid), {
+                    nombre: nombre,
+                    telefono: telefono,
+                    correo: correo,
+                    fechaRegistro: new Date(),
+                    uid: uid // Almacena el UID aquí
+                });
+
+                alert("Cuenta creada exitosamente");
+                window.location.href = "LogInVendedor.html";
+            } catch (error) {
+                console.error("Error al crear la cuenta:", error);
+                alert("Error: No se pudo crear la cuenta. Verifique la información e intente de nuevo.");
+            }
+        });
+    </script>
 </body>
 </html>

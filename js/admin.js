@@ -29,9 +29,15 @@ class AdminPanel {
         this.inicializar();
     }
 
-    inicializar() {
+    async cargarProductosEnEspera() {
+        const productosSnapshot = await getDocs(collection(db, 'productosEnEspera'));
+        this.productosEnEspera = productosSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    }    
+
+    async inicializar() {
+        await this.cargarProductosEnEspera();
         this.mostrarProductos();
-    }
+    }    
 
     mostrarProductos() {
         this.actualizarLista('lista-espera', this.productosEnEspera, 'en-espera');
@@ -69,17 +75,19 @@ class AdminPanel {
         `).join('');
     }
 
-    aprobarProducto(id) {
+    async aprobarProducto(id) {
         const producto = this.productosEnEspera.find(p => p.id === id);
         if (producto) {
+            await addDoc(collection(db, 'productosAprobados'), producto);
+            await deleteDoc(doc(db, 'productosEnEspera', id));
             this.productosAprobados.push(producto);
             this.productosEnEspera = this.productosEnEspera.filter(p => p.id !== id);
             this.mostrarProductos();
             alert('Producto aprobado');
         }
-    }
+    }    
 
-    rechazarProducto(id, motivo) {
+    async rechazarProducto(id, motivo) {
         if (!motivo) {
             alert('Por favor, ingresa un motivo para rechazar el producto.');
             return;
@@ -87,12 +95,14 @@ class AdminPanel {
         const producto = this.productosEnEspera.find(p => p.id === id);
         if (producto) {
             producto.motivoRechazo = motivo;
+            await addDoc(collection(db, 'productosRechazados'), producto);
+            await deleteDoc(doc(db, 'productosEnEspera', id));
             this.productosRechazados.push(producto);
             this.productosEnEspera = this.productosEnEspera.filter(p => p.id !== id);
             this.mostrarProductos();
             alert('Producto rechazado');
         }
-    }
+    }    
 }
 
 // Inicializa la instancia del panel de administración
