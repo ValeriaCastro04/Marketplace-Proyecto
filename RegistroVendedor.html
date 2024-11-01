@@ -25,10 +25,9 @@
     </form>
 
     <script type="module">
-        // Importa Firebase y sus funciones necesarias
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
         import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        import { getFirestore, collection, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
         // Configuración de Firebase
         const firebaseConfig = {
@@ -40,38 +39,34 @@
             appId: "1:1035665597993:web:fd75c9d15de9988b7a5e38"
         };
 
-        // Inicializa Firebase
         const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
         const db = getFirestore(app);
-        const auth = getAuth();
 
-        // Manejo de envío del formulario de registro
-        const form = document.getElementById("registroForm");
-
-        form.addEventListener("submit", async (e) => {
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // Obtiene los valores del formulario
-            const nombre = document.getElementById("nombre").value;
-            const telefono = document.getElementById("telefono").value;
-            const correo = document.getElementById("correo").value;
-            const password = document.getElementById("password").value;
+            const nombre = document.getElementById('nombre').value;
+            const telefono = document.getElementById('telefono').value;
+            const correo = document.getElementById('correo').value;
+            const password = document.getElementById('password').value;
 
             try {
-                // Crea el usuario en Firebase Authentication
+                // Crear usuario y obtener UID
                 const userCredential = await createUserWithEmailAndPassword(auth, correo, password);
-                const user = userCredential.user;
+                const uid = userCredential.user.uid;
 
-                // Agrega el vendedor a la colección "vendedores" en Firestore
-                await setDoc(doc(db, "vendedores", user.uid), {
+                // Guardar en la colección de vendedores
+                await setDoc(doc(db, "vendedores", uid), {
                     nombre: nombre,
                     telefono: telefono,
                     correo: correo,
-                    fechaRegistro: new Date()
+                    fechaRegistro: new Date(),
+                    uid: uid // Almacena el UID aquí
                 });
 
-                alert("¡Cuenta creada exitosamente!");
-                window.location.href = "Log-in-Vendedor.html";
+                alert("Cuenta creada exitosamente");
+                window.location.href = "LogInVendedor.html";
             } catch (error) {
                 console.error("Error al crear la cuenta:", error);
                 alert("Error: No se pudo crear la cuenta. Verifique la información e intente de nuevo.");
