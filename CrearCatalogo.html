@@ -6,6 +6,7 @@
     <title>Crear Catálogo de Productos</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
+<body>
     <header>
         <img src="img/SiVARMARKET -LOGO1.png" alt="SiVARMARKET Logo" id="logo">
         <nav>
@@ -18,64 +19,118 @@
             </ul>
           </nav>
     </header>
-<body>
-<div class="titulo">
-    <h1>Crear Catálogo de Productos</h1>
-</div>
-<section id="formulario-producto">
-    <h2>Añadir Nuevo Producto</h2>
-    <form action="crear_catalogo.php" method="post" enctype="multipart/form-data">
-        <label for="nombre_producto">Nombre del Producto:</label>
-        <input type="text" id="nombre_producto" name="nombre_producto" placeholder="Escriba el nombre del producto" required>
-        
-        <label for="descripcion_producto">Descripción:</label>
-        <textarea id="descripcion_producto" name="descripcion_producto" rows="4" placeholder="Escriba una breve descripción del producto" required></textarea>
-        
-        <label for="precio_producto">Precio (USD):</label>
-        <input type="number" id="precio_producto" name="precio_producto" step="0.01" placeholder="Escriba el precio" required>
-        
-        <label for="categoria_producto">Categoría:</label>
-        <select id="categoria_producto" name="categoria_producto" required>
-            <option value="electronica">Electrónica</option>
-            <option value="moda">Moda</option>
-            <option value="hogar">Hogar</option>
-            <option value="alimentacion">Alimentación</option>
-            <option value="otros">Otros</option>
-        </select>
-
-        <!-- Nueva parte para subir la imagen -->
-        <label for="imagen_producto">Imagen del Producto:</label>
-        <input type="file" id="imagen_producto" name="imagen_producto" accept="image/*" required>
-
-        <button type="submit">Añadir Producto</button>
-    </form>
-</section>
-
-<section id="catalogo-productos">
-    <h2>Catálogo de Productos</h2>
-
     
+    <div class="titulo">
+        <h1>Crear Catálogo de Productos</h1>
+    </div>
+    <section id="formulario-producto">
+        <h2>Añadir Nuevo Producto</h2>
+        <form id="productForm">
+            <label for="nombre_producto">Nombre del Producto:</label>
+            <input type="text" id="nombre_producto" name="nombre_producto" placeholder="Escriba el nombre del producto" required>
+            
+            <label for="descripcion_producto">Descripción:</label>
+            <textarea id="descripcion_producto" name="descripcion_producto" rows="4" placeholder="Escriba una breve descripción del producto" required></textarea>
+            
+            <label for="precio_producto">Precio (USD):</label>
+            <input type="number" id="precio_producto" name="precio_producto" step="0.01" placeholder="Escriba el precio" required>
+            
+            <label for="categoria_producto">Categoría:</label>
+            <select id="categoria_producto" name="categoria_producto" required>
+                <option value="ropa">Ropa</option>
+                <option value="antiguedades">Antigüedades</option>
+                <option value="cuidado-de-la-piel">Cuidado de la piel</option>
+                <option value="emprendimientos">Emprendimientos</option>
+                <option value="usados">Usados</option>
+                <option value="artesanías">Artesanías</option>
+            </select>
 
-</section>
+            <label for="imagen_producto">Imagen del Producto:</label>
+            <input type="file" id="imagen_producto" name="imagen_producto" accept="image/*" required>
 
+            <button type="submit">Añadir Producto</button>
+        </form>
+    </section>
+
+    <section id="catalogo-productos">
+        <h2>Catálogo de Productos</h2>
+    </section>
+
+    <script type="module">
+        // Import Firebase functions
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-storage.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDZigv2X5_57XfBkfE4zb2R2GobZ90igVI",
+            authDomain: "proyectometodologias-2186a.firebaseapp.com",
+            projectId: "proyectometodologias-2186a",
+            storageBucket: "proyectometodologias-2186a.appspot.com",
+            messagingSenderId: "1035665597993",
+            appId: "1:1035665597993:web:fd75c9d15de9988b7a5e38"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const storage = getStorage(app);
+
+        // Form submission handling
+        const form = document.getElementById('productForm');
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            // Get form values
+            const nombre = document.getElementById('nombre_producto').value;
+            const descripcion = document.getElementById('descripcion_producto').value;
+            const precio = parseFloat(document.getElementById('precio_producto').value);
+            const categoria = document.getElementById('categoria_producto').value;
+            const imagenFile = document.getElementById('imagen_producto').files[0];
+
+            try {
+                // Upload image to Firebase Storage
+                const storageRef = ref(storage, `productos/${imagenFile.name}`);
+                await uploadBytes(storageRef, imagenFile);
+                const imagenUrl = await getDownloadURL(storageRef);
+
+                // Save product data in Firestore
+                await addDoc(collection(db, "productos"), {
+                    nombre: nombre,
+                    descripcion: descripcion,
+                    precio: precio,
+                    categoria: categoria,
+                    imagenURL: imagenUrl,
+                    fechaCreacion: serverTimestamp()
+                });
+
+                // Success message and form reset
+                alert("¡Producto agregado correctamente!");
+                form.reset();
+            } catch (error) {
+                console.error("Error al agregar el producto: ", error);
+                alert("Error: No se pudo agregar el producto.");
+            }
+        });
+
+        import { getDoc, doc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+        // Prueba de conexión a Firestore
+        async function verificarConexion() {
+            try {
+                // Intentamos leer un documento inexistente para verificar la conexión
+                const docRef = doc(db, "productos", "verificacion-conexion");
+                await getDoc(docRef);
+                console.log("Conexión a Firebase exitosa.");
+            } catch (error) {
+                console.error("Error al conectar con Firebase:", error);
+            }
+        }
+
+        // Llamada a la función de verificación de conexión
+        verificarConexion();
+
+    </script>
 </body>
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyDZigv2X5_57XfBkfE4zb2R2GobZ90igVI",
-      authDomain: "proyectometodologias-2186a.firebaseapp.com",
-      projectId: "proyectometodologias-2186a",
-      storageBucket: "proyectometodologias-2186a.firebasestorage.app",
-      messagingSenderId: "1035665597993",
-      appId: "1:1035665597993:web:fd75c9d15de9988b7a5e38"
-    };
-  
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-  </script>
 </html>
