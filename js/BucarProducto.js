@@ -6,6 +6,29 @@ class TiendaOnline {
         this.inicializarCarrito();
     }
 
+    async obtenerResultados(termino) {
+        const productosRef = collection(db, 'productosAprobados');
+        const querySnapshot = await getDocs(productosRef);
+        return querySnapshot.docs
+            .map(doc => ({ id: doc.id, ...doc.data() }))
+            .filter(producto => 
+                producto.nombre.toLowerCase().includes(termino.toLowerCase()) ||
+                producto.descripcion.toLowerCase().includes(termino.toLowerCase())
+            );
+    }
+    
+    mostrarResultados(resultados) {
+        const resultadosContainer = document.getElementById('resultados-busqueda');
+        resultadosContainer.innerHTML = resultados.map(producto => `
+            <div class="producto">
+                <h4>${producto.nombre}</h4>
+                <p>${producto.descripcion}</p>
+                <span>$${producto.precio}</span>
+                <button onclick="tienda.agregarAlCarrito(${JSON.stringify(producto)})">Agregar al Carrito</button>
+            </div>
+        `).join('');
+    }    
+
     inicializarBuscador() {
         const buscador = document.createElement('input');
         buscador.type = 'search';
@@ -33,7 +56,7 @@ class TiendaOnline {
     }
 
     mostrarCarrito() {
-        const total = this.carrito.reduce((sum, item) => sum + item.precio, 0);
+        const total = this.carrito.reduce((sum, item) => sum + parseFloat(item.precio), 0);
         const carritoHTML = `
             <div class="carrito-modal">
                 <h2>Tu Carrito</h2>

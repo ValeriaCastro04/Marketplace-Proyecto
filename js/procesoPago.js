@@ -29,16 +29,39 @@ class ProcesadorPago {
     }
 
     async validarPago(datos) {
-        // Implementar validaciones
+        const tarjetaRegex = /^[0-9]{16}$/; // Tarjeta de 16 dígitos
+        const cvvRegex = /^[0-9]{3,4}$/;    // CVV de 3 o 4 dígitos
+        const expiracionRegex = /^(0[1-9]|1[0-2])\/?([0-9]{2})$/; // MM/YY formato
+    
+        if (!tarjetaRegex.test(datos.tarjeta)) {
+            throw new Error("Número de tarjeta inválido.");
+        }
+        if (!cvvRegex.test(datos.cvv)) {
+            throw new Error("CVV inválido.");
+        }
+        if (!expiracionRegex.test(datos.expiracion)) {
+            throw new Error("Fecha de expiración inválida. Use MM/YY.");
+        }
     }
+    
 
     async realizarPago(datos) {
-        // Implementar proceso de pago
-        return new Promise(resolve => setTimeout(resolve, 2000));
-    }
+        // Aquí iría la lógica para realizar el pago usando una API de proveedor externo
+        // Por ejemplo, puedes usar Stripe.js o la API REST de Stripe para procesar el pago
+        return new Promise((resolve, reject) => {
+            // Simulación de la llamada a una API de pago
+            setTimeout(() => {
+                // Resuelve si el pago es exitoso o rechaza si hay un problema
+                const isPagoExitoso = true; // Esto debería depender de la respuesta de la API de pago
+                if (isPagoExitoso) resolve();
+                else reject(new Error("El pago fue rechazado."));
+            }, 2000);
+        });
+    }    
 
     async enviarConfirmacion() {
-        // Implementar envío de confirmación
+        // Aquí se podría integrar un servicio como Firebase Cloud Messaging o una API de correo electrónico
+        alert("Confirmación de compra enviada a tu correo electrónico.");
     }
 }
 
