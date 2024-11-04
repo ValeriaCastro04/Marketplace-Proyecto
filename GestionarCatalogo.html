@@ -4,10 +4,31 @@
     <meta charset="UTF-8">
     <title>Gestionar Catálogo de Productos</title>
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        /* Estilos de color para los estados */
+        .estado-pendiente {
+            color: orange;
+            font-weight: bold;
+        }
+        .estado-aprobado {
+            color: green;
+            font-weight: bold;
+        }
+        .estado-rechazado {
+            color: red;
+            font-weight: bold;
+        }
+        .producto {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <img src="img/SiVARMARKET-LOGO1.png" alt="SiVARMARKET Logo" id="logo">
+        <img src="/img/SiVARMARKET -LOGO1.png" alt="SiVARMARKET logo" id="logo">
         <nav>
             <ul>
                 <li><a href="VendedorPerfil.html">Mi perfil</a></li>
@@ -15,6 +36,7 @@
                 <li><a href="GestionarCatalogo.html">Gestionar catálogo</a></li>
                 <li><a href="OpcionesVendedor.html">Opciones</a></li>
                 <li><a href="Soporte.html">Soporte</a></li>
+                <li><a href="#" id="cerrarSesion">Cerrar sesión</a></li>
             </ul>
         </nav>
     </header>
@@ -62,12 +84,21 @@
                         const producto = doc.data();
                         const productoElement = document.createElement("div");
                         productoElement.classList.add("producto");
+
+                        // Clase de color según el estado del producto
+                        let estadoClase = "estado-pendiente";
+                        if (producto.estado === "aprobado") {
+                            estadoClase = "estado-aprobado";
+                        } else if (producto.estado === "rechazado") {
+                            estadoClase = "estado-rechazado";
+                        }
+
                         productoElement.innerHTML = `
                             <h3>${producto.nombre}</h3>
                             <p>Descripción: ${producto.descripcion}</p>
                             <p>Precio: $${producto.precio}</p>
                             <p>Categoría: ${producto.categoria}</p>
-                            <p>Estado de aprobación: ${producto.estado}</p>
+                            <p>Estado de aprobación: <span class="${estadoClase}">${producto.estado}</span></p>
                             <img src="${producto.imagenURL}" alt="${producto.nombre}" width="100">
                         `;
                         productosContainer.appendChild(productoElement);
@@ -79,5 +110,6 @@
             }
         });
     </script>
+    <script src="/js/cerrarSesion.js"></script>
 </body>
 </html>

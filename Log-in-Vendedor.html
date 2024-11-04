@@ -52,7 +52,7 @@
                 .then((userCredential) => {
                     // Inicio de sesión exitoso
                     alert("Inicio de sesión exitoso.");
-                    window.location.href = "http://127.0.0.1:5500/CrearCatalogo.html"; // Redirige a la página correcta
+                    location.assign("/CrearCatalogo.html"); // Redirige a la página correcta
                 })
                 .catch((error) => {
                     console.error("Error en el inicio de sesión:", error);

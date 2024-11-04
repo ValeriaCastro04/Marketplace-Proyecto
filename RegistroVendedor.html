@@ -55,23 +55,28 @@
                 // Crear usuario y obtener UID
                 const userCredential = await createUserWithEmailAndPassword(auth, correo, password);
                 const uid = userCredential.user.uid;
+                console.log("Usuario creado con UID:", uid);
 
                 // Guardar en la colección de vendedores
                 await setDoc(doc(db, "vendedores", uid), {
                     nombre: nombre,
                     telefono: telefono,
                     correo: correo,
-                    fechaRegistro: serverTimestamp(), // Utiliza serverTimestamp para registrar la fecha de creación
-                    uid: uid // Almacena el UID aquí
+                    fechaRegistro: serverTimestamp(),
+                    uid: uid
                 });
 
+                console.log("Información guardada en la colección vendedores");
                 alert("Cuenta creada exitosamente");
-                window.location.href = "LogInVendedor.html";
+                
+                // Redirección utilizando location.assign
+                location.assign("/Log-in-Vendedor.html");
             } catch (error) {
                 console.error("Error al crear la cuenta:", error);
                 alert("Error: No se pudo crear la cuenta. Verifique la información e intente de nuevo.");
             }
         });
     </script>
+
 </body>
 </html>

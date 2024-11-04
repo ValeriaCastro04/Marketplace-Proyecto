@@ -277,21 +277,6 @@ table th {
     margin: 5px 0;
 }
 
-.producto-info .estado-pendiente {
-    color: orange;
-    font-weight: bold;
-}
-
-.producto-info .estado-aprobado {
-    color: green;
-    font-weight: bold;
-}
-
-.producto-info .estado-rechazado {
-    color: red;
-    font-weight: bold;
-}
-
 #productosContainer {
     display: flex;
     flex-wrap: wrap;
