@@ -207,51 +207,54 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
+    const categoryMapping = {
+        "Antigüedades": "antiguedades",
+        "Cuidado de la piel": "skincare",
+        "Ropa": "ropa",
+        "Emprendimientos": "emprendimientos",
+        "Usados": "usados",
+        "Artesanías": "artesanias"
+        };
+
+
     async function loadApprovedProducts() {
-        try {
-            const productsRef = collection(db, "productos");
-            const q = query(productsRef, where("estado", "==", "aprobado"));
-            const querySnapshot = await getDocs(q);
+    try {
+        const productsRef = collection(db, "productos");
+        const q = query(productsRef, where("estado", "==", "aprobado"));
+        const querySnapshot = await getDocs(q);
 
-            if (querySnapshot.empty) {
-                console.warn("No se encontraron productos aprobados en la base de datos.");
-                return;
+        querySnapshot.forEach((doc) => {
+            const product = doc.data();
+            const mappedCategory = categoryMapping[product.categoria];
+            const containerId = `${mappedCategory}-container`;
+            const container = document.getElementById(containerId);
+
+            if (container) {
+                const item = document.createElement("div");
+                item.classList.add("item");
+                item.innerHTML = `
+                    <figure>
+                        <img src="${product.imagenURL}" alt="${product.nombre}">
+                    </figure>
+                    <div class="info-product">
+                        <h2>${product.nombre}</h2>
+                        <p class="price">$${product.precio}</p>
+                        <button class="btn-add-cart">Añadir al carrito</button>
+                    </div>
+                `;
+                container.appendChild(item);
+                console.log(`Producto cargado: ${product.nombre}, Categoría: ${product.categoria}`);
+            } else {
+                console.warn(`Contenedor para la categoría "${product.categoria}" no encontrado.`);
             }
-
-            querySnapshot.forEach((doc) => {
-                const product = doc.data();
-                console.log(`Producto encontrado: ${product.nombre}, Categoría: ${product.categoria}`);
-                
-                // Normalizar categoría eliminando acentos y caracteres especiales
-                const category = product.categoria.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
-                const containerId = `${category}-container`;
-                const container = document.getElementById(containerId);
-
-                if (container) {
-                    const item = document.createElement("div");
-                    item.classList.add("item");
-                    item.innerHTML = `
-                        <figure>
-                            <img src="${product.imagenURL}" alt="${product.nombre}">
-                        </figure>
-                        <div class="info-product">
-                            <h2>${product.nombre}</h2>
-                            <p class="price">$${product.precio}</p>
-                            <button class="btn-add-cart">Añadir al carrito</button>
-                        </div>
-                    `;
-                    container.appendChild(item);
-                    console.log(`Producto cargado en la página: ${product.nombre}, Categoría: ${category}`);
-                } else {
-                    console.error(`Contenedor para la categoría "${category}" no encontrado. Verifica que el id del contenedor en el HTML sea "${containerId}".`);
-                }
-            });
-        } catch (error) {
-            console.error("Error al cargar los productos aprobados:", error);
-        }
+        });
+    } catch (error) {
+        console.error("Error al cargar los productos aprobados:", error);
     }
+}
 
-    loadApprovedProducts();
+loadApprovedProducts();
+
 
     const carouselPositions = {
         ropa: 0,

@@ -18,11 +18,43 @@
             color: red;
             font-weight: bold;
         }
+
+        /* Estilo de cuadrícula para productos */
+        #productos-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+
         .producto {
-            border: 1px solid #ccc;
-            padding: 10px;
-            margin-bottom: 10px;
+            background-color: white;
+            border: 1px solid #ddd;
             border-radius: 5px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .producto img {
+            width: 100%;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .producto h3 {
+            font-size: 1.2em;
+            color: #333;
+        }
+
+        .producto p {
+            font-size: 0.9em;
+            color: #666;
+        }
+
+        .producto:hover {
+            transform: scale(1.05);
         }
     </style>
 </head>
@@ -32,7 +64,7 @@
         <nav>
             <ul>
                 <li><a href="VendedorPerfil.html">Mi perfil</a></li>
-                <li><a href="CrearCatalogo.html">Crear catálogo</a></li>
+                <li><a href="CrearCatalogo.html">Añadir producto</a></li>
                 <li><a href="GestionarCatalogo.html">Gestionar catálogo</a></li>
                 <li><a href="OpcionesVendedor.html">Opciones</a></li>
                 <li><a href="Soporte.html">Soporte</a></li>
@@ -75,7 +107,6 @@
         onAuthStateChanged(auth, async (user) => {
             if (user) {
                 try {
-                    // Consultar solo los productos del vendedor autenticado
                     const q = query(collection(db, "productos"), where("vendedorId", "==", user.uid));
                     const querySnapshot = await getDocs(q);
 
@@ -99,7 +130,7 @@
                             <p>Precio: $${producto.precio}</p>
                             <p>Categoría: ${producto.categoria}</p>
                             <p>Estado de aprobación: <span class="${estadoClase}">${producto.estado}</span></p>
-                            <img src="${producto.imagenURL}" alt="${producto.nombre}" width="100">
+                            <img src="${producto.imagenURL}" alt="${producto.nombre}">
                         `;
                         productosContainer.appendChild(productoElement);
                     });
