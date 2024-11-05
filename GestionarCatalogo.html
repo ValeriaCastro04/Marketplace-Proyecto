@@ -84,7 +84,7 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
         import { getFirestore, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
-        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+        import { getAuth, onAuthStateChanged , signOut } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
 
         // Configuración de Firebase
         const firebaseConfig = {
@@ -102,6 +102,24 @@
         const auth = getAuth(app);
 
         const productosContainer = document.getElementById("productos-container");
+        
+        document.getElementById("cerrarSesion").addEventListener("click", (e) => {
+            e.preventDefault(); // Previene el comportamiento predeterminado del enlace
+
+            // Muestra la ventana de confirmación
+            const confirmar = confirm("¿Está seguro de que desea cerrar sesión?");
+            
+            // Si el usuario confirma, cierra la sesión y redirige a la página de inicio de sesión
+            if (confirmar) {
+                signOut(auth).then(() => {
+                    // Redirige a la pantalla de inicio de sesión después de cerrar sesión
+                    location.assign("/Log-in-Vendedor.html");
+                }).catch((error) => {
+                    console.error("Error al cerrar sesión:", error);
+                    alert("Hubo un error al intentar cerrar sesión.");
+                });
+            }
+        });
 
         // Cargar productos del vendedor autenticado
         onAuthStateChanged(auth, async (user) => {

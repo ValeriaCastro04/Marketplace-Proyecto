@@ -22,46 +22,49 @@
     <div class="container_infr">
         <div class="formulario_infr">
             <h2>Ingrese sus datos</h2>
-            <form action="ProcesoPago.html" method="post"> 
+            <form id="paymentForm" action="ProcesoPago.html" method="post">
                 <label for="nombre">Nombre</label>
-                <input type="text" id="nombre" class="input_infr" value="" name="nombre"  title="Ingrese su nombre (a-z)" placeholder="Ingresa tu nombre" required>
+                <input type="text" id="nombre" class="input_infr" name="nombre" placeholder="Ingresa tu nombre" required>
 
                 <label for="direccion">Dirección</label>
-                <input type="text" id="direccion" class="input_infr" value="" pattern="(?=.*[A-Za-z])[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ\s.,\-#]+" name="direccion"  title="Ingrese su direccion" placeholder="Ingresa tu direccion" required>
+                <input type="text" id="direccion" class="input_infr" pattern="(?=.*[A-Za-z])[A-Za-z0-9ÁÉÍÓÚáéíóúÑñ\s.,\-#]+" name="direccion" placeholder="Ingresa tu dirección" required>
 
                 <label for="telefono">Num de teléfono</label>
-                <input type="tel" id="telefono" class="input_infr" value="" pattern="[0-9\s\-]+" name="telefono"  title="Telefono (2222-2222)" placeholder="Ingresa tu número de teléfono" required>
+                <input type="tel" id="telefono" class="input_infr" pattern="[0-9\s\-]+" name="telefono" placeholder="Ingresa tu número de teléfono" required>
 
                 <label for="correo">Correo electrónico</label>
-                <input type="email" id="correo" class="input_infr" value="" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" name="correo"  title="Ingrese su correo electronico" placeholder="Ingresa tu correo electrónico" required>
-                
+                <input type="email" id="correo" class="input_infr" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" name="correo" placeholder="Ingresa tu correo electrónico" required>
 
                 <button type="submit" id="boton" class="boton_ir_a_pagar">IR A PAGAR</button>
             </form>
         </div>
-        
-        
-        
     </div>
 
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDZigv2X5_57XfBkfE4zb2R2GobZ90igVI",
+            authDomain: "proyectometodologias-2186a.firebaseapp.com",
+            projectId: "proyectometodologias-2186a",
+            storageBucket: "proyectometodologias-2186a.firebasestorage.app",
+            messagingSenderId: "1035665597993",
+            appId: "1:1035665597993:web:fd75c9d15de9988b7a5e38"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+
+        // Optional JavaScript for handling form submission and redirection
+        document.getElementById("paymentForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevents the default form submission
+
+            // Perform any additional validation or Firebase operations if needed
+            // Redirect to ProcesoPago.html after the form submission
+            window.location.href = "ProcesoPago.html";
+        });
+    </script>
 </body>
-<script type="module">
-    // Import the functions you need from the SDKs you need
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-    // TODO: Add SDKs for Firebase products that you want to use
-    // https://firebase.google.com/docs/web/setup#available-libraries
-  
-    // Your web app's Firebase configuration
-    const firebaseConfig = {
-      apiKey: "AIzaSyDZigv2X5_57XfBkfE4zb2R2GobZ90igVI",
-      authDomain: "proyectometodologias-2186a.firebaseapp.com",
-      projectId: "proyectometodologias-2186a",
-      storageBucket: "proyectometodologias-2186a.firebasestorage.app",
-      messagingSenderId: "1035665597993",
-      appId: "1:1035665597993:web:fd75c9d15de9988b7a5e38"
-    };
-  
-    // Initialize Firebase
-    const app = initializeApp(firebaseConfig);
-  </script>
 </html>
