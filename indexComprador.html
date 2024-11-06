@@ -237,19 +237,29 @@
         };
 
 
-    async function loadApprovedProducts() {
+        async function loadApprovedProducts() {
     try {
         const productsRef = collection(db, "productos");
         const q = query(productsRef, where("estado", "==", "aprobado"));
         const querySnapshot = await getDocs(q);
 
+        // Verifica si se obtuvieron productos aprobados
+        if (querySnapshot.empty) {
+            console.warn("No se encontraron productos aprobados en la base de datos.");
+            return;
+        }
+
         querySnapshot.forEach((doc) => {
             const product = doc.data();
+            console.log(`Producto encontrado: ${product.nombre}, Categoría: ${product.categoria}`);
+
+            // Mapea la categoría del producto al ID del contenedor
             const mappedCategory = categoryMapping[product.categoria];
             const containerId = `${mappedCategory}-container`;
             const container = document.getElementById(containerId);
 
             if (container) {
+                // Crea y agrega el producto al contenedor
                 const item = document.createElement("div");
                 item.classList.add("item");
                 item.innerHTML = `
@@ -263,7 +273,7 @@
                     </div>
                 `;
                 container.appendChild(item);
-                console.log(`Producto cargado: ${product.nombre}, Categoría: ${product.categoria}`);
+                console.log(`Producto cargado en la categoría: ${product.categoria}`);
             } else {
                 console.warn(`Contenedor para la categoría "${product.categoria}" no encontrado.`);
             }
@@ -288,34 +298,38 @@ loadApprovedProducts();
     };
 
     function moveCarousel(category, direction) {
-        const container = document.getElementById(`${category}-container`);
-        const items = container.querySelectorAll('.item');
+    const container = document.getElementById(`${category}-container`);
+    const items = container.querySelectorAll('.item');
 
-        if (items.length === 0) return;
+    if (items.length === 0) return;
 
-        // Ancho del contenedor padre
-        const containerWidth = container.parentElement.offsetWidth;
-        
-        // Ancho de un ítem incluyendo margen
-        const itemWidth = items[0].offsetWidth + 15; // Ajusté el ancho para que incluya el margen que se definió en CSS
-        const totalWidth = itemWidth * items.length; // Ancho total de todos los ítems
+    // Ancho del contenedor padre
+    const containerWidth = container.parentElement.offsetWidth;
+    
+    // Ancho de un ítem incluyendo margen
+    const itemWidth = items[0].offsetWidth + 75; // Ajuste para incluir el margen
+    const totalWidth = itemWidth * items.length; // Ancho total de todos los ítems
 
-        // Limitar el desplazamiento para evitar cortar ítems
-        let maxOffset = totalWidth - containerWidth;
-        if (maxOffset < 0) maxOffset = 0;
-
-        // Actualizamos el desplazamiento de la categoría específica
-        currentOffsets[category] += direction * containerWidth;
-
-        // Limitar el desplazamiento entre 0 y el máximo posible
-        if (currentOffsets[category] < 0) {
-            currentOffsets[category] = 0;
-        } else if (currentOffsets[category] > maxOffset) {
-            currentOffsets[category] = maxOffset;
-        }
-
-        container.style.transform = `translateX(-${currentOffsets[category]}px)`;
+    // Limitar el desplazamiento para evitar cortar ítems
+    let maxOffset = totalWidth - containerWidth;
+    
+    // Si el último elemento se muestra a medias, asegúrate de ajustar el offset máximo
+    if (maxOffset < itemWidth) {
+        maxOffset = Math.max(0, totalWidth - containerWidth);
     }
+
+    // Actualizamos el desplazamiento de la categoría específica
+    currentOffsets[category] += direction * containerWidth;
+
+    // Limitar el desplazamiento entre 0 y el máximo posible
+    if (currentOffsets[category] < 0) {
+        currentOffsets[category] = 0;
+    } else if (currentOffsets[category] > maxOffset) {
+        currentOffsets[category] = maxOffset;
+    }
+
+    container.style.transform = `translateX(-${currentOffsets[category]}px)`;
+}
 </script>
 <script src="js/index.js"></script>
 </body>

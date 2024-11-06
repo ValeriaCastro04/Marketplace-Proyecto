@@ -222,6 +222,10 @@ function mostrarModal(producto, productoId) {
         }
     }
 
+    // Asignar eventos a los botones de aprobación y rechazo
+    document.getElementById("aprobar-btn").onclick = () => cambiarEstadoProducto("aprobado");
+    document.getElementById("rechazar-btn").onclick = () => cambiarEstadoProducto("rechazado");
+
     document.getElementById("modal").style.display = "flex";
 }
 
