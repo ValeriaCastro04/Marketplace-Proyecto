@@ -80,7 +80,7 @@
             <ul>
                 <li><a href="admin.html">Revisar Productos</a></li>
                 <li><a href="#">Opciones</a></li>
-                <li><a href="inicio.html">Cerrar sesión</a></li>
+                <li><a href="#" id="cerrarSesion">Cerrar sesión</a></li>
             </ul>
         </nav>
     </header>
@@ -124,7 +124,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getFirestore, collection, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+        import { getFirestore, setDoc, collection, getDocs, getDoc, updateDoc, doc } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
         // Configuración de Firebase
         const firebaseConfig = {
@@ -176,54 +176,117 @@
                 console.error("Error al cargar los productos:", error);
             }
         }
-
-        function mostrarModal(producto, productoId) {
-            productoSeleccionado = productoId;
-            document.getElementById("modal-producto-nombre").textContent = producto.nombre;
-            document.getElementById("modal-producto-vendedor").textContent = producto.vendedorId;
-            document.getElementById("modal-producto-descripcion").textContent = producto.descripcion;
-            document.getElementById("modal-producto-precio").textContent = producto.precio;
-            document.getElementById("modal-producto-categoria").textContent = producto.categoria;
-            document.getElementById("modal-producto-imagen").src = producto.imagenURL;
-            
-            // Oculta o muestra los botones según el estado del producto
-            const botonesAprobacion = document.getElementById("botones-aprobacion");
-            if (producto.estado === "pendiente") {
-                botonesAprobacion.style.display = "block";
-            } else {
-                botonesAprobacion.style.display = "none";
-            }
-            
-            document.getElementById("modal").style.display = "flex";
-            console.log("Modal abierto con producto:", producto.nombre); // Depuración
-        }
-
-        function cerrarModal(event) {
-            if (event) event.stopPropagation();
-            document.getElementById("modal").style.display = "none";
-        }
-
-        async function cambiarEstadoProducto(estado) {
-            if (!productoSeleccionado) return;
-
-            const productoRef = doc(db, "productos", productoSeleccionado);
-
-            try {
-                await updateDoc(productoRef, { estado: estado });
-                console.log(`Producto ${productoSeleccionado} actualizado a estado: ${estado}`);
-                cerrarModal();
-                cargarProductos(); // Recargar los productos para reflejar cambios
-            } catch (error) {
-                console.error("Error al actualizar el estado del producto:", error);
-            }
-        }
-
-        // Asigna eventos a los botones de aprobar y rechazar
-        document.getElementById("aprobar-btn").addEventListener("click", () => cambiarEstadoProducto("aprobado"));
-        document.getElementById("rechazar-btn").addEventListener("click", () => cambiarEstadoProducto("rechazado"));
-
-        // Llamada inicial para cargar los productos
         cargarProductos();
+
+// Función para cerrar el modal
+function cerrarModal() {
+    document.getElementById("modal").style.display = "none";
+}
+
+// Asignar evento al contenedor del modal para cerrar al hacer clic fuera del contenido
+window.addEventListener('click', function(event) {
+    const modal = document.getElementById("modal");
+    if (event.target === modal) {
+        cerrarModal();
+    }
+});
+
+// Función para mostrar el modal con los detalles del producto
+function mostrarModal(producto, productoId) {
+    productoSeleccionado = productoId;
+    document.getElementById("modal-producto-nombre").textContent = producto.nombre;
+    document.getElementById("modal-producto-vendedor").textContent = producto.vendedorId;
+    document.getElementById("modal-producto-descripcion").textContent = producto.descripcion;
+    document.getElementById("modal-producto-precio").textContent = producto.precio;
+    document.getElementById("modal-producto-categoria").textContent = producto.categoria;
+    document.getElementById("modal-producto-imagen").src = producto.imagenURL;
+
+    // Mostrar u ocultar los botones de aprobación y motivo de rechazo según el estado
+    const botonesAprobacion = document.getElementById("botones-aprobacion");
+    const rejectionReasonContainer = document.getElementById("rejection-reason-container");
+
+    if (producto.estado === "pendiente") {
+        botonesAprobacion.style.display = "block";
+        if (rejectionReasonContainer) {
+            rejectionReasonContainer.style.display = "none";
+        }
+    } else if (producto.estado === "rechazado") {
+        botonesAprobacion.style.display = "none";
+        if (rejectionReasonContainer) {
+            rejectionReasonContainer.style.display = "block";
+        }
+    } else {
+        botonesAprobacion.style.display = "none";
+        if (rejectionReasonContainer) {
+            rejectionReasonContainer.style.display = "none";
+        }
+    }
+
+    document.getElementById("modal").style.display = "flex";
+}
+
+// Crear y agregar la caja de texto para el motivo de rechazo al modal
+const rejectionReasonContainer = document.createElement('div');
+rejectionReasonContainer.id = "rejection-reason-container";
+rejectionReasonContainer.style.display = "none";
+rejectionReasonContainer.innerHTML = `
+    <h4>Motivo de Rechazo</h4>
+    <textarea id="rejection-reason" placeholder="Escribe el motivo del rechazo..." style="width: 100%; height: 100px; margin-top: 10px;"></textarea>
+    <button id="enviar-motivo-btn" class="button rechazar" style="margin-top: 10px;">Enviar Motivo</button>
+`;
+
+document.querySelector(".modal-content").appendChild(rejectionReasonContainer);
+
+// Asignar evento de envío al botón
+rejectionReasonContainer.querySelector("#enviar-motivo-btn").addEventListener("click", async () => {
+    const motivo = document.getElementById("rejection-reason").value;
+    if (!productoSeleccionado || !motivo) {
+        alert("Por favor, selecciona un producto y escribe un motivo de rechazo.");
+        return;
+    }
+
+    try {
+        const producto = await getDoc(doc(db, "productos", productoSeleccionado));
+        if (producto.exists()) {
+            const productoData = producto.data();
+            const motivoRef = doc(collection(db, "motivoRechazo"), productoSeleccionado);
+            await setDoc(motivoRef, {
+                nombreProducto: productoData.nombre,
+                idVendedor: productoData.vendedorId,
+                motivo: motivo,
+                fechaCreacion: new Date().toISOString()
+            });
+            alert("Motivo de rechazo enviado correctamente.");
+            document.getElementById("rejection-reason").value = ""; // Limpiar el campo de texto
+        } else {
+            alert("No se encontró el producto seleccionado.");
+        }
+    } catch (error) {
+        console.error("Error al guardar el motivo de rechazo:", error);
+        alert(`Error al guardar el motivo de rechazo: ${error.message}`);
+    }
+});
+
+// Asignar evento al botón de cerrar
+const closeBtn = document.querySelector(".close-btn");
+closeBtn.addEventListener("click", cerrarModal);
+
+// Función para cambiar el estado del producto
+async function cambiarEstadoProducto(estado) {
+    if (!productoSeleccionado) return;
+
+    const productoRef = doc(db, "productos", productoSeleccionado);
+
+    try {
+        await updateDoc(productoRef, { estado: estado });
+        console.log(`Producto ${productoSeleccionado} actualizado a estado: ${estado}`);
+        cerrarModal();
+        cargarProductos(); // Recargar los productos para reflejar cambios
+    } catch (error) {
+        console.error("Error al actualizar el estado del producto:", error);
+    }
+}
     </script>
+    <script src="/js/cerrarSesionAdmin.js" defer></script>
 </body>
 </html>
