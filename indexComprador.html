@@ -6,19 +6,34 @@
     <title>SiVARMARKET</title>
     <link rel="stylesheet" href="css/index_comprador.css">
     <style>
-        /* Estilos para flechas del carrusel */
+        /* Estilos del contenedor y elementos para el carrusel */
         .carousel {
-            position: relative;
             display: flex;
+            align-items: center;
+            justify-content: space-between;
             overflow: hidden;
-            width: 100%;
+            position: relative;
+            width: 99%;
+            margin: auto;
         }
-
+    
         .carousel-items {
             display: flex;
-            transition: transform 0.3s ease;
+            transition: transform 0.5s ease-in-out;
+            will-change: transform;
+            gap: 15px; /* Añadí un gap para mantener una separación constante */
         }
-
+    
+        .item {
+            min-width: 220px;
+            flex-shrink: 0;
+            text-align: center;
+            background-color: #fff;
+            padding: 10px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+    
         .arrow {
             position: absolute;
             top: 50%;
@@ -31,13 +46,18 @@
             padding: 0.5rem;
             z-index: 1;
         }
-
+    
         .arrow-left {
-            left: 0;
+            left: -10px; /* Ajusté la posición para mejor alineación */
         }
-
+    
         .arrow-right {
-            right: 0;
+            right: -10px; /* Ajusté la posición para mejor alineación */
+        }
+    
+        .item img {
+            max-width: 100%;
+            border-radius: 5px;
         }
     </style>
 </head>
@@ -141,7 +161,7 @@
     <h1 id="ropa">Ropa</h1>
 </div>
 <div class="carousel">
-    <button class="arrow arrow-left" onclick="moveCarousel('ropa', -1)">&#10094;</button>
+    <button class="arrow arrow-left" onclick="moveCarousel( 'ropa', -1)">&#10094;</button>
     <div class="carousel-items container-items" id="ropa-container"></div>
     <button class="arrow arrow-right" onclick="moveCarousel('ropa', 1)">&#10095;</button>
 </div>
@@ -254,33 +274,47 @@
 }
 
 loadApprovedProducts();
+</script>
 
-
-    const carouselPositions = {
-        ropa: 0,
-        antiguedades: 0,
-        skincare: 0,
-        emprendimientos: 0,
-        usados: 0,
-        artesanias: 0,
+<script>
+    // Se mantienen los offsets para cada categoría
+    let currentOffsets = {
+        "ropa": 0,
+        "antiguedades": 0,
+        "skincare": 0,
+        "emprendimientos": 0,
+        "usados": 0,
+        "artesanias": 0
     };
 
     function moveCarousel(category, direction) {
         const container = document.getElementById(`${category}-container`);
-        const items = container.querySelector(".carousel-items");
-        const itemWidth = items.querySelector(".item").offsetWidth;
-        const itemsVisible = Math.floor(container.offsetWidth / itemWidth);
+        const items = container.querySelectorAll('.item');
 
-        carouselPositions[category] += direction;
+        if (items.length === 0) return;
 
-        if (carouselPositions[category] < 0) {
-            carouselPositions[category] = 0;
-        } else if (carouselPositions[category] > items.children.length - itemsVisible) {
-            carouselPositions[category] = items.children.length - itemsVisible;
+        // Ancho del contenedor padre
+        const containerWidth = container.parentElement.offsetWidth;
+        
+        // Ancho de un ítem incluyendo margen
+        const itemWidth = items[0].offsetWidth + 15; // Ajusté el ancho para que incluya el margen que se definió en CSS
+        const totalWidth = itemWidth * items.length; // Ancho total de todos los ítems
+
+        // Limitar el desplazamiento para evitar cortar ítems
+        let maxOffset = totalWidth - containerWidth;
+        if (maxOffset < 0) maxOffset = 0;
+
+        // Actualizamos el desplazamiento de la categoría específica
+        currentOffsets[category] += direction * containerWidth;
+
+        // Limitar el desplazamiento entre 0 y el máximo posible
+        if (currentOffsets[category] < 0) {
+            currentOffsets[category] = 0;
+        } else if (currentOffsets[category] > maxOffset) {
+            currentOffsets[category] = maxOffset;
         }
 
-        const offset = -carouselPositions[category] * itemWidth;
-        items.style.transform = `translateX(${offset}px)`;
+        container.style.transform = `translateX(-${currentOffsets[category]}px)`;
     }
 </script>
 <script src="js/index.js"></script>
